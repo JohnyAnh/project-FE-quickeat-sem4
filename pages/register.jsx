@@ -2,18 +2,35 @@ import React, {useState} from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {useDispatch} from "react-redux";
+import {toast} from "react-toastify";
+import {handleRegisternRedux} from "@/src/redux/actions/userAction";
 
 
 export default function Register() {
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [repassword, setRePassword] = useState("");
+    const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+
     const [isShowpassword, setIsShowPassword] = useState(false);
+    const [isShowrepassword, setIsShowRePassword] = useState(false);
 
 
-    const handleRegister = () =>{
 
-    }
+    const handleRegister = () => {
+        if (password !== repassword) {
+            setIsPasswordMatch(false);
+            toast.error("Password and repassword must match");
+        } else if (!email || !password) {
+            toast.error("Email and password are required");
+        } else {
+            dispatch(handleRegisternRedux(email, password));
+            toast.success("Register success");
+
+        }
+    };
 
     return (
         <div className="d-flex flex-column vh-100" style={{ backgroundColor: "#ccc" }}>
@@ -46,51 +63,54 @@ export default function Register() {
                                         {/*</div>*/}
                                         <div className="mb-3">
                                             <label className="form-label">Email</label>
-                                            <input type="email" className="form-control" placeholder="Enter email"/>
+                                            <input
+                                                type="email"
+                                                className="form-control"
+                                                placeholder="Enter email"
+                                                value={email}
+                                                onChange={(event) => setEmail(event.target.value)}
+                                            />
                                         </div>
                                         <div className="mb-3">
                                             <label className="form-label">Password</label>
                                             <div className="input-group input-group-flat">
-                                                <input type="password" className="form-control" placeholder="Password"
-                                                       autoComplete="off"/>
+                                                <input
+                                                    type={isShowpassword === true ? "text" : "password"}
+                                                    className="form-control"
+                                                    placeholder="password"
+                                                    autoComplete="off"
+                                                    value={password}
+                                                    onChange={(event) => setPassword(event.target.value)}
+
+                                                />
                                                 <span className="input-group-text">
-                                                    <a href="#" className="link-secondary" title="Show password"
-                                                       data-bs-toggle="tooltip">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon"
-                                                             width="24" height="24" viewBox="0 0 24 24" strokeWidth="2"
-                                                             stroke="currentColor" fill="none" strokeLinecap="round"
-                                                             strokeLinejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
-                                                            <path
-                                                                d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
-                                                        </svg>
-                                                    </a>
-                                                </span>
+                                        <i
+                                            className={isShowpassword === true ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}
+                                            onClick={() => setIsShowPassword(!isShowpassword)}
+                                        ></i>
+                                    </span>
                                             </div>
                                         </div>
                                         <div className="mb-3">
-                                            <label className="form-label">Repassword</label>
+                                            <label className="form-label">Confirm password</label>
                                             <div className="input-group input-group-flat">
-                                                <input type="password" className="form-control"
-                                                       placeholder="Confirm password"
-                                                       autoComplete="off"/>
+                                                <input
+                                                    type={isShowrepassword === true ? "text" : "password"}
+                                                    className="form-control"
+                                                    placeholder="confirm password"
+                                                    autoComplete="off"
+                                                    value={repassword}
+                                                    onChange={(event) => setRePassword(event.target.value)}
+                                                />
                                                 <span className="input-group-text">
-                                                    <a href="#" className="link-secondary" title="Show password"
-                                                       data-bs-toggle="tooltip">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon"
-                                                             width="24" height="24" viewBox="0 0 24 24" strokeWidth="2"
-                                                             stroke="currentColor" fill="none" strokeLinecap="round"
-                                                             strokeLinejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
-                                                            <path
-                                                                d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
-                                                        </svg>
-                                                    </a>
-                                                </span>
+                                        <i
+                                            className={isShowrepassword === true ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}
+                                            onClick={() => setIsShowRePassword(!isShowrepassword)}
+                                        ></i>
+                                    </span>
                                             </div>
                                         </div>
+
                                         {/* <div className="mb-3">
                           <label className="form-check">
                             <input type="checkbox" className="form-check-input" />
@@ -102,7 +122,12 @@ export default function Register() {
                                         {/* Rest of the form */}
 
                                         <div className="form-footer">
-                                            <button type="submit" className="btn btn-primary w-100">Create new account
+                                            <button
+                                                // disabled={email && password ? false : true}
+                                                onClick={() => handleRegister()}
+
+                                                className="btn btn-primary w-100">
+                                                Create new account
                                             </button>
                                         </div>
                                     </div>

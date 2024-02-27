@@ -64,8 +64,8 @@ export const handleRegisternRedux = (email, password) => {
         try {
             const res = await registerApi(email.trim(), password);
 
-            localStorage.setItem('jwt', res.data.jwt);
-            localStorage.setItem('email', email.trim());
+            // localStorage.setItem('jwt', res.data.jwt);
+            // localStorage.setItem('email', email.trim());
 
             dispatch({
                 type: FETCH_USER_SUCCESS,
