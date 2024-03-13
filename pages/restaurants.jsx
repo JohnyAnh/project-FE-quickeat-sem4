@@ -1,7 +1,44 @@
 import Subscribe from "@/src/components/Subscribe";
 import Layout from "@/src/layouts/Layout";
 import Link from "next/link";
-const Restaurants = () => {
+import {useEffect, useState} from "react";
+import RestaurantService from "@/src/services/restaurantService";
+import {useRouter} from "next/router";
+const Restaurants = (props) => {
+  const [restaurant, setRestaurant] = useState([]);
+  // const [randomRestaurant, setRandomRestaurant] = useState(null);
+  const router = useRouter();
+
+  const handleRestaurantClick = (id) => {
+    router.push(`/restaurant-card?id=${id}`);
+  };
+  const handleRestaurantChange = (selectedId) => {
+    router.push(`/restaurant-card?id=${selectedId}`);
+  };
+
+
+  useEffect(() => {
+    RestaurantService.getRestaurants()
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.length > 0) {
+            setRestaurant(res.data);
+            // const randomIndex = Math.floor(Math.random() * res.data.length);
+            // setRandomRestaurant(res.data[randomIndex]);
+
+          } else {
+            console.log("No restaurants found.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
+
+  console.log("check restaurant:", restaurant);
+  // console.log("check restaurant:", randomRestaurant);
+
+
   return (
     <Layout>
       {/* hero-section */}
@@ -9,10 +46,10 @@ const Restaurants = () => {
         <div className="container">
           <div className="row align-items-center">
             <div
-              className="col-lg-6"
-              data-aos="fade-up"
-              data-aos-delay={200}
-              data-aos-duration={300}
+                className="col-lg-6"
+                data-aos="fade-up"
+                data-aos-delay={200}
+                data-aos-duration={300}
             >
               <div className="about-text">
                 <ul className="crumbs d-flex">
@@ -21,7 +58,7 @@ const Restaurants = () => {
                   </li>
                   <li className="two">
                     <Link href="/">
-                      <i className="fa-solid fa-right-long" />
+                      <i className="fa-solid fa-right-long"/>
                       Restaurants
                     </Link>
                   </li>
@@ -33,35 +70,38 @@ const Restaurants = () => {
                 </p>
                 <div className="restaurant">
                   <div className="nice-select-one">
-                    <select className="nice-select Advice">
-                      <option>Choose a Restaurant</option>
-                      <option>Choose a Restaurant 1</option>
-                      <option>Choose a Restaurant 2</option>
-                      <option>Choose a Restaurant 3</option>
-                      <option>Choose a Restaurant 4</option>
-                    </select>
+                    {restaurant.length > 0 && (
+                        <select className="nice-select Advice" onChange={(e) => handleRestaurantChange(e.target.value)}>
+                          <option>Choose a Restaurant</option>
+                          {restaurant.map((e, k) => (
+                              <option key={e.id} value={e.id}>{e.name}</option>
+                          ))}
+                        </select>
+                    )}
                   </div>
                 </div>
+
+
               </div>
             </div>
             <div
-              className="col-lg-6"
-              data-aos="fade-up"
-              data-aos-delay={300}
-              data-aos-duration={400}
+                className="col-lg-6"
+                data-aos="fade-up"
+                data-aos-delay={300}
+                data-aos-duration={400}
             >
               <div className="restaurants-girl-img food-photo-section">
-                <img alt="man" src="assets/img/photo-11.png" />{" "}
+                <img alt="man" src="assets/img/imageTheme/photo-11.png"/>{" "}
                 <a href="#" className="one">
-                  <i className="fa-solid fa-burger" />
+                  <i className="fa-solid fa-burger"/>
                   Burgers
                 </a>{" "}
                 <a href="#" className="two">
-                  <i className="fa-solid fa-drumstick-bite" />
+                  <i className="fa-solid fa-drumstick-bite"/>
                   Chicken
                 </a>{" "}
                 <a href="#" className="three">
-                  <i className="fa-solid fa-cheese" />
+                  <i className="fa-solid fa-cheese"/>
                   Steaks
                 </a>{" "}
                 <a href="#" className="for">
@@ -83,20 +123,37 @@ const Restaurants = () => {
         <div className="container">
           <div
             className="banner-img"
-            style={{ backgroundImage: "url(assets/img/food-4.jpg)" }}
+            style={{ backgroundImage: "url(assets/img/imageTheme/food-4.jpg)" }}
           >
             <div className="banner-logo">
               <h4>
                 Restaurant
-                <br />
+                <br/>
                 of the Month
-                <span className="chevron chevron--left" />
+                <span className="chevron chevron--left"/>
               </h4>
+              {/*<div className="banner-wilmington">*/}
+              {/*  /!* Render the Banner component *!/*/}
+              {/*  {randomRestaurant && (*/}
+              {/*      <div className="banner-wilmington">*/}
+              {/*        {randomRestaurant.images && randomRestaurant.images.map((image, index) => (*/}
+              {/*            <img*/}
+              {/*                key={index}*/}
+              {/*                src={image.url}*/}
+              {/*                alt={`gif-${index}`}*/}
+              {/*                style={{ width: "65px", height: "60px" }}*/}
+              {/*            />*/}
+              {/*        ))}*/}
+              {/*        <h6>{randomRestaurant.name}</h6>*/}
+              {/*      </div>*/}
+              {/*  )}*/}
+              </div>
+
               <div className="banner-wilmington">
                 <img alt="logo" src="assets/img/logo-s.jpg" />
                 <h6>The Wilmington</h6>
               </div>
-            </div>
+            {/*</div>*/}
             <div className="row">
               <div className="col-xl-6 col-lg-12">
                 <div className="choose-lunches">
@@ -115,212 +172,67 @@ const Restaurants = () => {
       {/* best-restaurants */}
       <section className="best-restaurants gap">
         <div className="container">
-          <div className="row">
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={200}
-              data-aos-duration={300}
-            >
-              <div className="logos-card restaurant-page ">
-                <img alt="logo" src="assets/img/logos-2.jpg" />
-                <div className="cafa">
-                  <h4>
-                    {" "}
-                    <a href="#">Kennington Lane Cafe</a>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-regular fa-star" />
+          <div className="row" >
+            {restaurant.map((e, k) => {
+              return (
+                  <div
+                      key={k}
+                      className="col-lg-6"
+                      data-aos="flip-up"
+                      data-aos-delay={200}
+                      data-aos-duration={300}
+                      style={{ marginBottom: '20px' }}
+                  >
+                    <div className="logos-card restaurant-page" onClick={() => handleRestaurantClick(e.id)}>
+                      {e.images && e.images.map((image, index) => (
+                          <img
+                              key={index}
+                              src={image.url}
+                              alt={`gif-${index}`}
+                          />
+                      ))}
+                      <div className="cafa">
+                        <h4>
+                          {" "}
+                          <a href="#" onClick={() => handleRestaurantClick(e.id)}>{e.name}</a>
+                        </h4>
+                        {/*Fake data*/}
+                        <div>
+                          <i className="fa-solid fa-star"/>
+                          <i className="fa-solid fa-star"/>
+                          <i className="fa-solid fa-star"/>
+                          <i className="fa-solid fa-star"/>
+                          <i className="fa-solid fa-star"/>
+                        </div>
+                        <div className="cafa-button">
+                          {" "}
+                          <a href="#">american</a> <a href="#">steakhouse</a>
+                          <a className="end" href="#">
+                            seafood
+                          </a>
+                        </div>
+                        {/*Fake data*/}
+
+                        {/*<div>*/}
+                        {/*  {[...Array(e.rating)].map((_, i) => (*/}
+                        {/*      <i key={i} className="fa-solid fa-star" />*/}
+                        {/*  ))}*/}
+                        {/*  {[...Array(5 - e.rating)].map((_, i) => (*/}
+                        {/*      <i key={i} className="fa-regular fa-star" />*/}
+                        {/*  ))}*/}
+                        {/*</div>*/}
+                        {/*<div className="cafa-button">*/}
+                        {/*  {e.categories.map((category, index) => (*/}
+                        {/*      <a key={index} href="#">{category}</a>*/}
+                        {/*  ))}*/}
+                        {/*</div>*/}
+                        <p>{e.description}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">american</a> <a href="#">steakhouse</a>
-                    <a className="end" href="#">
-                      seafood
-                    </a>
-                  </div>
-                  <p>
-                    Non enim praesent elementum facilisis leo vel fringilla.
-                    Lectus proin nibh nisl condimentum id. Quis varius quam
-                    quisque id diam vel.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={300}
-              data-aos-duration={400}
-            >
-              <div className="logos-card restaurant-page">
-                <img alt="logo" src="assets/img/logos-1.jpg" />
-                <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">The Wilmington</Link>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                  </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">american</a> <a href="#">steakhouse</a>
-                    <a className="end" href="#">
-                      seafood
-                    </a>
-                  </div>
-                  <p>
-                    Vulputate enim nulla aliquet porttitor lacus luctus.
-                    Suscipit adipiscing bibendum est ultricies integer. Sed
-                    adipiscing diam donec adipiscing tristique.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={400}
-              data-aos-duration={500}
-            >
-              <div className="logos-card restaurant-page two">
-                <img alt="logo" src="assets/img/logos-3.jpg" />
-                <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">Kings Arms</Link>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-regular fa-star-half-stroke" />
-                  </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">healthy</a> <a href="#">steakhouse</a>
-                    <a className="end" href="#">
-                      vegetarian
-                    </a>
-                  </div>
-                  <p>
-                    Tortor at risus viverra adipiscing at in tellus. Cras semper
-                    auctor neque vitae tempus. Dui accumsan sit amet nulla
-                    facilisi. Sed adipiscing diam .
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={500}
-              data-aos-duration={600}
-            >
-              <div className="logos-card restaurant-page two">
-                <img alt="logo" src="assets/img/logos-4.jpg" />
-                <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">The Victoria</Link>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-regular fa-star" />
-                  </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">american</a> <a href="#">steakhouse</a>
-                    <a className="end" href="#">
-                      seafood
-                    </a>
-                  </div>
-                  <p>
-                    Non enim praesent elementum facilisis leo vel fringilla.
-                    Lectus proin nibh nisl condimentum id. Quis varius quam
-                    quisque id diam vel.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={200}
-              data-aos-duration={300}
-            >
-              <div className="logos-card restaurant-page two">
-                <img alt="logo" src="assets/img/logos-5.jpg" />
-                <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">Lanes of London</Link>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                  </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">american</a> <a href="#">steakhouse</a>
-                    <a className="end" href="#">
-                      seafood
-                    </a>
-                  </div>
-                  <p>
-                    At erat pellentesque adipiscing commodo elit at imperdiet
-                    dui. Suspendisse faucibus interdum posuere lorem. Elit sed
-                    vulputate mi sit.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={300}
-              data-aos-duration={400}
-            >
-              <div className="logos-card restaurant-page two">
-                <img alt="logo" src="assets/img/logos-6.jpg" />
-                <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">The Andover Arms</Link>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-regular fa-star-half-stroke" />
-                  </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">healthy</a> <a href="#">steakhouse</a>
-                    <a className="end" href="#">
-                      vegetarian
-                    </a>
-                  </div>
-                  <p>
-                    Lacus vestibulum sed arcu non odio euismod lacinia at. Id
-                    neque aliquam vestibulum morbi. Ante metus dictum
-                    ullamcorper a lacus.
-                  </p>
-                </div>
-              </div>
-            </div>
+              );
+            })}
+
           </div>
         </div>
       </section>

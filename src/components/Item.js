@@ -11,7 +11,14 @@ const Item = ({ item }) => {
       key={item.id}
     >
       <div className="dish">
-        <img alt="food-dish" src={item.image} />
+        <img alt="food-dish" src={item.images} />
+        {item.images && item.images.map((image, index) => (
+            <img
+                key={index}
+                src={image.url}
+                alt={`logo-${index}`}
+            />
+        ))}
         <div
           className="dish-foods"
           style={{
@@ -21,12 +28,12 @@ const Item = ({ item }) => {
           <h3>{item.title}</h3>
           <div className="dish-icon">
             <div className="cafa-button">
-              {" "}
-              {item.tags.map((tag, i) => (
-                <Fragment key={i}>
-                  <a href="#">{tag}</a>{" "}
-                </Fragment>
-              ))}
+              {/*{" "}*/}
+              {/*{item.tags.map((tag, i) => (*/}
+              {/*  <Fragment key={i}>*/}
+              {/*    <a href="#">{tag}</a>{" "}*/}
+              {/*  </Fragment>*/}
+              {/*))}*/}
             </div>
             <div className="dish-icon end">
               <i
@@ -88,12 +95,12 @@ const Item = ({ item }) => {
           />
           <h5>{item.title}</h5>
           <div className="cafa-button">
-            {" "}
-            {item.tags.map((tag, i) => (
-              <Fragment key={i}>
-                <a href="#">{tag}</a>{" "}
-              </Fragment>
-            ))}
+            {/*{" "}*/}
+            {/*{item.tags.map((tag, i) => (*/}
+            {/*  <Fragment key={i}>*/}
+            {/*    <a href="#">{tag}</a>{" "}*/}
+            {/*  </Fragment>*/}
+            {/*))}*/}
           </div>
           <p>
             In egestas erat imperdiet sed euismod nisi porta. Ultrices sagittis

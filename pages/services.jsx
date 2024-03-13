@@ -6,7 +6,7 @@ const Services = () => {
     <Layout>
       <section
         className="hero-section about gap"
-        style={{ backgroundImage: "url(assets/img/background.png)" }}
+        style={{ backgroundImage: "url(assets/img/imageTheme/background.png)" }}
       >
         <div className="container">
           <div className="row align-items-center">
@@ -49,7 +49,7 @@ const Services = () => {
                 <div className="row align-items-center">
                   <div className="col-lg-6 col-md-6 col-sm-6 col-6">
                     <div className="counter-img">
-                      <img alt="man" src="/assets/img/man-1.jpg" />
+                      <img alt="man" src="/assets/img/imageTheme/man-1.jpg" />
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-6">
@@ -73,7 +73,7 @@ const Services = () => {
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-6 col-6">
                     <div className="counter-img">
-                      <img alt="man" src="/assets/img/man-1.jpg" />
+                      <img alt="man" src="/assets/img/imageTheme/man-1.jpg" />
                     </div>
                   </div>
                 </div>
@@ -244,7 +244,7 @@ const Services = () => {
               data-aos-duration={300}
             >
               <div className="work-card service">
-                <img alt="img" src="/assets/img/Illustration-1.png" />
+                <img alt="img" src="/assets/img/imageTheme/Illustration-1.png" />
                 <h4>Select Restaurant</h4>
                 <p>
                   Non enim praesent elementum facilisis leo vel fringilla.
@@ -260,7 +260,7 @@ const Services = () => {
               data-aos-duration={400}
             >
               <div className="work-card service">
-                <img alt="img" src="/assets/img/Illustration-2.png" />
+                <img alt="img" src="/assets/img/imageTheme/Illustration-2.png" />
                 <h4>Select menu</h4>
                 <p>
                   Eu mi bibendum neque egestas congue quisque. Nulla facilisi
@@ -276,7 +276,7 @@ const Services = () => {
               data-aos-duration={600}
             >
               <div className="work-card service">
-                <img alt="img" src="/assets/img/illustration-3.png" />
+                <img alt="img" src="/assets/img/imageTheme/illustration-3.png" />
                 <h4>Wait for delivery</h4>
                 <p>
                   Nunc lobortis mattis aliquam faucibus. Nibh ipsum consequat
@@ -299,7 +299,7 @@ const Services = () => {
               data-aos-duration={300}
             >
               <div className="sit-at-img">
-                <img alt="man" src="/assets/img/man-3.jpg" />
+                <img alt="man" src="/assets/img/imageTheme/man-3.jpg" />
                 <div className="counter-img-data">
                   <h2>976</h2>
                   <span>

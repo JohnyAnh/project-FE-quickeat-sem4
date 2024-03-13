@@ -3,6 +3,7 @@ import Item from "./Item";
 
 const RestaurantCardTab = ({ items }) => {
   const [activeTab, setActiveTab] = useState("breakfast");
+
   return (
     <section className="tabs gap">
       <div className="container">
@@ -87,10 +88,17 @@ const RestaurantCardTab = ({ items }) => {
                   aria-labelledby="v-pills-home-tab"
                 >
                   <div className="row">
+                    {/*{items.map(*/}
+                    {/*  (item, i) =>*/}
+                    {/*    i <= 5 &&*/}
+                    {/*    item.category.includes("breakfast") && (*/}
+                    {/*      <Item item={item} key={item.id} />*/}
+                    {/*    )*/}
+                    {/*)}*/}
                     {items.map(
                       (item, i) =>
-                        i <= 5 &&
-                        item.category.includes("breakfast") && (
+
+                        item.category.name.includes("breakfast") && (
                           <Item item={item} key={item.id} />
                         )
                     )}
@@ -105,10 +113,17 @@ const RestaurantCardTab = ({ items }) => {
                   aria-labelledby="v-pills-profile-tab"
                 >
                   <div className="row">
+                    {/*{items.map(*/}
+                    {/*  (item, i) =>*/}
+                    {/*    i <= 5 &&*/}
+                    {/*    item.category.includes("lunch") && (*/}
+                    {/*      <Item item={item} key={item.id} />*/}
+                    {/*    )*/}
+                    {/*)}*/}
                     {items.map(
                       (item, i) =>
-                        i <= 5 &&
-                        item.category.includes("lunch") && (
+
+                        item.category.name.includes("lunch") && (
                           <Item item={item} key={item.id} />
                         )
                     )}
@@ -123,10 +138,17 @@ const RestaurantCardTab = ({ items }) => {
                   aria-labelledby="v-pills-messages-tab"
                 >
                   <div className="row">
+                    {/*{items.map(*/}
+                    {/*  (item, i) =>*/}
+                    {/*    i <= 5 &&*/}
+                    {/*    item.category.includes("dinner") && (*/}
+                    {/*      <Item item={item} key={item.id} />*/}
+                    {/*    )*/}
+                    {/*)}*/}
                     {items.map(
                       (item, i) =>
-                        i <= 5 &&
-                        item.category.includes("dinner") && (
+
+                        item.category.name.includes("dinner") && (
                           <Item item={item} key={item.id} />
                         )
                     )}

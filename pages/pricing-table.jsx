@@ -6,7 +6,7 @@ const PricingTable = () => {
     <Layout>
       <section
         className="hero-section about gap"
-        style={{ backgroundImage: "url(assets/img/background-3.png)" }}
+        style={{ backgroundImage: "url(assets/img/imageTheme/background-3.png)" }}
       >
         <div className="container">
           <div className="row align-items-center">
@@ -60,9 +60,9 @@ const PricingTable = () => {
             >
               <div
                 className="pricing-table-cards"
-                style={{ backgroundImage: "url(assets/img/blur-1.png)" }}
+                style={{ backgroundImage: "url(assets/img/imageTheme/blur-1.png)" }}
               >
-                <img alt="food" src="assets/img/food-5.png" />
+                <img alt="food" src="assets/img/imageTheme/food-5.png" />
                 <div className="pricing-table-cards-pric">
                   <h6>
                     <i className="fa-solid fa-box" />
@@ -127,9 +127,9 @@ const PricingTable = () => {
             >
               <div
                 className="pricing-table-cards"
-                style={{ backgroundImage: "url(assets/img/blur-2.png)" }}
+                style={{ backgroundImage: "url(assets/img/imageTheme/blur-2.png)" }}
               >
-                <img alt="food" src="assets/img/food-6.png" />
+                <img alt="food" src="assets/img/imageTheme/food-6.png" />
                 <div className="pricing-table-cards-pric">
                   <h6>
                     <i className="fa-solid fa-box" />
@@ -193,9 +193,9 @@ const PricingTable = () => {
             >
               <div
                 className="pricing-table-cards"
-                style={{ backgroundImage: "url(assets/img/blur-3.png)" }}
+                style={{ backgroundImage: "url(assets/img/imageTheme/blur-3.png)" }}
               >
-                <img alt="food" src="assets/img/food-7.png" />
+                <img alt="food" src="assets/img/imageTheme/food-7.png" />
                 <div className="pricing-table-cards-pric">
                   <h6>
                     <i className="fa-solid fa-box" />

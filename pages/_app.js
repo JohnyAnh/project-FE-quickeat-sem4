@@ -11,7 +11,15 @@ import { Provider } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import {useRouter} from "next/router";
+import RestaurantDetail from "@/pages/restaurant-card";
+
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+  // Kiểm tra nếu đường dẫn là '/api/restaurants/list/:id'
+
+
+
   const [preLoader, setPreLoader] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -40,6 +48,14 @@ export default function App({ Component, pageProps }) {
       </>
     );
   };
+
+  if (router.pathname.startsWith('/api/restaurants/list/')) {
+    // Lấy id từ đường dẫn
+    const id = router.pathname.split('/').pop();
+
+    // Thay đổi component thành RestaurantCard và truyền id làm props
+    return <RestaurantDetail id={id} />;
+  }
 
   return (
     <Provider store={store}>

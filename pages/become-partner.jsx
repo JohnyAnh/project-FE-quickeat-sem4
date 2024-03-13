@@ -5,7 +5,7 @@ const BecomePartner = () => {
     <Layout headerExtaClass={"two"}>
       <section
         className="hero-section about blog-page gap"
-        style={{ backgroundImage: "url(assets/img/blog-img-1.jpg)" }}
+        style={{ backgroundImage: "url(assets/img/imageTheme/blog-img-1.jpg)" }}
       >
         <div className="container">
           <div className="row align-items-center">
@@ -225,7 +225,7 @@ const BecomePartner = () => {
               data-aos-duration={300}
             >
               <div className="join-img-blog">
-                <img alt="join" src="assets/img/join-img.jpg" />
+                <img alt="join" src="assets/img/imageTheme/join-img.jpg" />
               </div>
             </div>
             <div
@@ -273,7 +273,7 @@ const BecomePartner = () => {
               data-aos-duration={300}
             >
               <div className="news-posts-one blog">
-                <img alt="man" src="assets/img/news-1.jpg" />
+                <img alt="man" src="assets/img/imageTheme/news-1.jpg" />
                 <div className="quickeat">
                   {" "}
                   <a href="#">news</a> <a href="#">quickeat</a>
@@ -316,7 +316,7 @@ const BecomePartner = () => {
               data-aos-duration={400}
             >
               <div className="news-posts-one blog">
-                <img alt="man" src="assets/img/news-2.jpg" />
+                <img alt="man" src="assets/img/imageTheme/news-2.jpg" />
                 <div className="quickeat">
                   {" "}
                   <a href="#">news</a> <a href="#">quickeat</a>
@@ -360,7 +360,7 @@ const BecomePartner = () => {
               data-aos-duration={500}
             >
               <div className="news-posts-one blog">
-                <img alt="man" src="assets/img/news-3.jpg" />
+                <img alt="man" src="assets/img/imageTheme/news-3.jpg" />
                 <div className="quickeat">
                   {" "}
                   <a href="#">news</a> <a href="#">quickeat</a>

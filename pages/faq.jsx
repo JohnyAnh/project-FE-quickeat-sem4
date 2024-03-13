@@ -40,7 +40,7 @@ const Faq = () => {
               data-aos-duration={400}
             >
               <div className="join-img-blog">
-                <img alt="join" src="assets/img/faq.jpg" />
+                <img alt="join" src="assets/img/imageTheme/faq.jpg" />
                 <i className="fa-solid fa-question" />
               </div>
             </div>
@@ -440,7 +440,7 @@ const Faq = () => {
               <div className="form-section-img">
                 <img
                   alt="form-section-img"
-                  src="assets/img/form-section-img.png"
+                  src="assets/img/imageTheme/form-section-img.png"
                 />
               </div>
             </div>
