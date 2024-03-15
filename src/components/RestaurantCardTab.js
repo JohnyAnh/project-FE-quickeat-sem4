@@ -31,7 +31,7 @@ const RestaurantCardTab = ({ items }) => {
                     aria-controls="v-pills-home"
                     aria-selected="true"
                     className={`nav-link ${
-                      activeTab == "breakfast" ? "active" : ""
+                      activeTab === "breakfast" ? "active" : ""
                     }`}
                     onClick={() => setActiveTab("breakfast")}
                   >
@@ -46,7 +46,7 @@ const RestaurantCardTab = ({ items }) => {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                     className={`nav-link ${
-                      activeTab == "lunch" ? "active" : ""
+                      activeTab === "lunch" ? "active" : ""
                     }`}
                     onClick={() => setActiveTab("lunch")}
                   >
@@ -61,7 +61,7 @@ const RestaurantCardTab = ({ items }) => {
                     aria-controls="v-pills-messages"
                     aria-selected="false"
                     className={`nav-link ${
-                      activeTab == "dinner" ? "active" : ""
+                      activeTab === "dinner" ? "active" : ""
                     }`}
                     onClick={() => setActiveTab("dinner")}
                   >
@@ -81,20 +81,13 @@ const RestaurantCardTab = ({ items }) => {
               <div className="tab-content" id="v-pills-tabContent">
                 <div
                   className={`tab-pane fade ${
-                    activeTab == "breakfast" ? "show active" : ""
+                    activeTab === "breakfast" ? "show active" : ""
                   }`}
                   id="v-pills-home"
                   role="tabpanel"
                   aria-labelledby="v-pills-home-tab"
                 >
                   <div className="row">
-                    {/*{items.map(*/}
-                    {/*  (item, i) =>*/}
-                    {/*    i <= 5 &&*/}
-                    {/*    item.category.includes("breakfast") && (*/}
-                    {/*      <Item item={item} key={item.id} />*/}
-                    {/*    )*/}
-                    {/*)}*/}
                     {items.map(
                       (item, i) =>
 
@@ -106,20 +99,13 @@ const RestaurantCardTab = ({ items }) => {
                 </div>
                 <div
                   className={`tab-pane fade ${
-                    activeTab == "lunch" ? "show active" : ""
+                    activeTab === "lunch" ? "show active" : ""
                   }`}
                   id="v-pills-profile"
                   role="tabpanel"
                   aria-labelledby="v-pills-profile-tab"
                 >
                   <div className="row">
-                    {/*{items.map(*/}
-                    {/*  (item, i) =>*/}
-                    {/*    i <= 5 &&*/}
-                    {/*    item.category.includes("lunch") && (*/}
-                    {/*      <Item item={item} key={item.id} />*/}
-                    {/*    )*/}
-                    {/*)}*/}
                     {items.map(
                       (item, i) =>
 
@@ -131,20 +117,13 @@ const RestaurantCardTab = ({ items }) => {
                 </div>
                 <div
                   className={`tab-pane fade ${
-                    activeTab == "dinner" ? "show active" : ""
+                    activeTab === "dinner" ? "show active" : ""
                   }`}
                   id="v-pills-messages"
                   role="tabpanel"
                   aria-labelledby="v-pills-messages-tab"
                 >
                   <div className="row">
-                    {/*{items.map(*/}
-                    {/*  (item, i) =>*/}
-                    {/*    i <= 5 &&*/}
-                    {/*    item.category.includes("dinner") && (*/}
-                    {/*      <Item item={item} key={item.id} />*/}
-                    {/*    )*/}
-                    {/*)}*/}
                     {items.map(
                       (item, i) =>
 

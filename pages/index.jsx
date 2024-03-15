@@ -3,7 +3,77 @@ import Layout from "@/src/layouts/Layout";
 import { sliderProps } from "@/src/sliderProps";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
+import {useEffect, useState} from "react";
+import RestaurantService from "@/src/services/restaurantService";
+import {useRouter} from "next/router";
+
+
 const Index = () => {
+  const router = useRouter();
+const [restaurantData, setRestaurantData]= useState([]);
+  const handleOrderNow = () => {
+    // Get the selected restaurant id
+    const selectedRestaurantId = document.querySelector('.nice-select.Advice').value;
+
+    // If no restaurant is selected, do nothing
+    if (!selectedRestaurantId) return;
+
+    // Navigate to the restaurant card page with the selected restaurant id
+    router.push(`/restaurant-card?id=${selectedRestaurantId}`);
+  };
+  useEffect(() => {
+    RestaurantService.getRestaurants()
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.length > 0) {
+            setRestaurantData(res.data);
+          } else {
+            console.log("No restaurants found.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
+
+  const [topMonthRestaurantData, setTopMonthRestaurantData] = useState([]);
+  const [reqTopMonthRestaurant] = useState({pageSize:1})
+  useEffect(() => {
+    RestaurantService.findRestaurants(reqTopMonthRestaurant)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.length > 0) {
+            setTopMonthRestaurantData(res.data);
+          } else {
+            console.log("No restaurants found.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
+
+  const [topBestRestaurantData, setTopBestRestaurantData] = useState([]);
+  const [reqTopBestRestaurant] = useState({pageSize:3})
+  useEffect(() => {
+    RestaurantService.findRestaurants(reqTopBestRestaurant)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.length > 0) {
+            setTopBestRestaurantData(res.data);
+          } else {
+            console.log("No restaurants found.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
+  const handleBestRestaurantChange = (selectedId) => {
+    router.push(`/restaurant-card?id=${selectedId}`);
+  };
+
+  console.log("check topMonthRestaurant:", topMonthRestaurantData);
   return (
     <Layout>
       <section
@@ -24,18 +94,20 @@ const Index = () => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor.
                 </p>
-                <div className="nice-select-one">
-                  <select className="nice-select Advice">
-                    <option>Choose a Restaurant</option>
-                    <option>Choose a Restaurant 1</option>
-                    <option>Choose a Restaurant 2</option>
-                    <option>Choose a Restaurant 3</option>
-                    <option>Choose a Restaurant 4</option>
-                  </select>{" "}
-                  <Link href="checkout" className="button button-2">
-                    Order Now
-                  </Link>
-                </div>
+                {restaurantData.length > 0 && (
+                    <div className="nice-select-one">
+                      <select className="nice-select Advice" defaultValue="">
+                        <option disabled value="">Choose a Restaurant</option>
+                        {restaurantData.map((restaurant, index) => (
+                            <option key={restaurant.id} value={restaurant.id}>{restaurant.name}</option>
+                        ))}
+                      </select>
+                      {" "}
+                      <button className="button button-2" onClick={handleOrderNow}>
+                        Order Now
+                      </button>
+                    </div>
+                )}
               </div>
             </div>
             <div
@@ -46,24 +118,37 @@ const Index = () => {
             >
               <div className="img-restaurant">
                 <img alt="man" src="assets/img/imageTheme/photo-1.png" />
+                {topMonthRestaurantData && topMonthRestaurantData.map((topmonth, i) => (
                 <div className="wilmington">
-                  <img alt="img" src="assets/img/photo-2.jpg" />
+                  {topmonth.images && topmonth.images.map((image, index) => (
+                      <img
+                          key={index}
+                          src={image.url}
+                          alt={`gif-${index}`}
+                          // style={{ width: "90px", height: "90px" }}
+                      />
+                  ))}
                   <div>
                     <p>Restaurant of the Month</p>
                     <h6>The Wilmington</h6>
                     <div>
-                      <i className="fa-solid fa-star" />
-                      <i className="fa-solid fa-star" />
-                      <i className="fa-solid fa-star" />
-                      <i className="fa-solid fa-star" />
-                      <i className="fa-regular fa-star-half-stroke" />
+                      {[...Array(Math.floor(topmonth.rate))].map((_, index) => (
+                          <i key={index} className="fa-solid fa-star"/>
+                      ))}
+                      {topmonth.rate % 1 !== 0 && (
+                          <i className="fa-regular fa-star-half-stroke"/>
+                      )}
+                      {[...Array(5 - Math.ceil(topmonth.rate))].map((_, index) => (
+                          <i key={index + Math.ceil(topmonth.rate)} className="fa-regular fa-star"/>
+                      ))}
                     </div>
                   </div>
                 </div>
+                ))}
                 <div className="wilmington location-restaurant">
-                  <i className="fa-solid fa-location-dot" />
+                  <i className="fa-solid fa-location-dot"/>
                   <div>
-                    <h6>12 Restaurant</h6>
+                    <h6>06 Restaurant</h6>
                     <p>In Your city</p>
                   </div>
                 </div>
@@ -76,8 +161,8 @@ const Index = () => {
       <section className="works-section gap no-top">
         <div className="container">
           <div
-            className="hading"
-            data-aos="fade-up"
+              className="hading"
+              data-aos="fade-up"
             data-aos-delay={200}
             data-aos-duration={300}
           >
@@ -152,7 +237,12 @@ const Index = () => {
         className="best-restaurants gap"
         style={{ background: "#fcfcfc" }}
       >
+
+
+
+
         <div className="container">
+
           <div className="row align-items-center">
             <div
               className="col-lg-6"
@@ -161,13 +251,15 @@ const Index = () => {
               data-aos-duration={300}
             >
               <div className="city-restaurants">
-                <h2>12 Best Restaurants in Your City</h2>
+                <h2>06 Best Restaurants in Your City</h2>
                 <p>
                   Magna sit amet purus gravida quis blandit turpis cursus.
                   Venenatis tellus in metus vulputate.
                 </p>
               </div>
             </div>
+            {topBestRestaurantData && topBestRestaurantData.map((topBestRestaurant, i) => (
+
             <div
               className="col-lg-6"
               data-aos="flip-up"
@@ -175,17 +267,31 @@ const Index = () => {
               data-aos-duration={400}
             >
               <div className="logos-card">
-                <img alt="logo" src="assets/img/logos-2.jpg" />
+                {topBestRestaurant.images && topBestRestaurant.images.map((image, index) => (
+                    <img
+                        key={index}
+                        src={image.url}
+                        alt={`gif-${index}`}
+                        // style={{ width: "50px", height: "50px" }}
+                    />
+                ))}
                 <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">Kennington Lane Cafe</Link>
+                  <h4 key={i}>
+                    <Link href={`/restaurant-card?id=${topBestRestaurant.id}`}>
+                      {topBestRestaurant.name}
+                    </Link>
                   </h4>
+                  {/*Star*/}
                   <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-regular fa-star" />
+                    {[...Array(Math.floor(topBestRestaurant.rate))].map((_, index) => (
+                        <i key={index} className="fa-solid fa-star"/>
+                    ))}
+                    {topBestRestaurant.rate % 1 !== 0 && (
+                        <i className="fa-regular fa-star-half-stroke"/>
+                    )}
+                    {[...Array(5 - Math.ceil(topBestRestaurant.rate))].map((_, index) => (
+                        <i key={index + Math.ceil(topBestRestaurant.rate)} className="fa-regular fa-star"/>
+                    ))}
                   </div>
                   <div className="cafa-button">
                     {" "}
@@ -202,75 +308,9 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={400}
-              data-aos-duration={500}
-            >
-              <div className="logos-card two">
-                <img alt="logo" src="assets/img/logos-1.jpg" />
-                <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">The Wilmington</Link>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                  </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">american</a> <a href="#">steakhouse</a>{" "}
-                    <a className="end" href="#">
-                      seafood
-                    </a>
-                  </div>
-                  <p>
-                    Vulputate enim nulla aliquet porttitor lacus luctus.
-                    Suscipit adipiscing bibendum est ultricies integer. Sed
-                    adipiscing diam donec adipiscing tristique.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              className="col-lg-6"
-              data-aos="flip-up"
-              data-aos-delay={500}
-              data-aos-duration={600}
-            >
-              <div className="logos-card three">
-                <img alt="logo" src="assets/img/logos-3.jpg" />
-                <div className="cafa">
-                  <h4>
-                    <Link href="restaurant-card">Kings Arms</Link>
-                  </h4>
-                  <div>
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-solid fa-star" />
-                    <i className="fa-regular fa-star-half-stroke" />
-                  </div>
-                  <div className="cafa-button">
-                    {" "}
-                    <a href="#">healthy</a> <a href="#">steakhouse</a>{" "}
-                    <a className="end" href="#">
-                      vegetarian
-                    </a>
-                  </div>
-                  <p>
-                    Tortor at risus viverra adipiscing at in tellus. Cras semper
-                    auctor neque vitae tempus. Dui accumsan sit amet nulla
-                    facilisi. Sed adipiscing diam donec adipiscing tristique.
-                  </p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
+
           <div className="button-gap">
             <Link href="restaurants" className="button button-2 non">
               See All
@@ -278,6 +318,13 @@ const Index = () => {
             </Link>
           </div>
         </div>
+
+
+
+
+
+
+
       </section>
       {/* your-favorite-food */}
       <section

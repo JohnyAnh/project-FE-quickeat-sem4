@@ -161,16 +161,15 @@ const Header = ({ extraClass }) => {
                   <Link href="/">Home</Link>
                 </li>
                 <li className="navbar-dropdown">
-                  <Link href="about">About Us</Link>
-                </li>
-                <li className="navbar-dropdown">
                   <Link href="restaurants">Restaurants</Link>
                   <div className="dropdown">
                     <Link href="restaurants">Restaurants</Link>
-                    <Link href="restaurant-card">Restaurant Card</Link>
+                    {/*<Link href="restaurant-card">Restaurant Card</Link>*/}
                     <Link href="checkout">Checkout</Link>
                   </div>
                 </li>
+
+
                 <li className="navbar-dropdown">
                   <Link href="#">Pages</Link>
                   <div className="dropdown">
@@ -186,6 +185,9 @@ const Header = ({ extraClass }) => {
                 <li className="navbar-dropdown">
                   <Link href="contacts">Contacts</Link>
                 </li>
+                <li className="navbar-dropdown">
+                  <Link href="about">About Us</Link>
+                </li>
                 <li>
                   <div>
 
@@ -198,12 +200,12 @@ const Header = ({ extraClass }) => {
           <div className="col-lg-3">
             <div className="extras bag">
               <a
-                href="#"
-                id="desktop-menu"
-                className="menu-btn"
-                onClick={(e) => onClick(e)}
+                  href="#"
+                  id="desktop-menu"
+                  className="menu-btn"
+                  onClick={(e) => onClick(e)}
               >
-                <i className="fa-solid fa-bag-shopping" />
+                <i className="fa-solid fa-bag-shopping"/>
               </a>
               <Link href="checkout" className="button button-2">
                 Order Now

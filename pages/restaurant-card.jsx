@@ -3,7 +3,7 @@ import RestaurantCardTab from "@/src/components/RestaurantCardTab";
 import Layout from "@/src/layouts/Layout";
 import Link from "next/link";
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import RestaurantService from "@/src/services/restaurantService";
 import productService from "@/src/services/productService";
 
@@ -19,79 +19,7 @@ const RestaurantCard = () => {
   //     price: 39,
   //     quantity: 1,
   //     category: ["breakfast", "lunch", "dinner"],
-  //   },
-  //   {
-  //     id: 2,
-  //     image: "/assets/img/dish-6.png",
-  //     title: "Potatoes with pork and dried fruits",
-  //     tags: ["breakfast", "brunch"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["breakfast", "dinner"],
-  //   },
-  //   {
-  //     id: 3,
-  //     image: "/assets/img/dish-5.png",
-  //     title: "Rice with shrimps and kiwi",
-  //     tags: ["breakfast", "brunch"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["breakfast", "lunch"],
-  //   },
-  //   {
-  //     id: 7,
-  //     image: "/assets/img/dish-7.png",
-  //     title: "Fruits with rice chips",
-  //     tags: ["breakfast", "brunch"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["breakfast", "lunch"],
-  //   },
-  //   {
-  //     id: 8,
-  //     image: "/assets/img/dish-10.png",
-  //     title: "Vegetables with rice chips",
-  //     tags: ["breakfast", "brunch"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["breakfast", "lunch", "dinner"],
-  //   },
-  //   {
-  //     id: 9,
-  //     image: "/assets/img/dish-11.png",
-  //     title: "Pork with vegetables and...",
-  //     tags: ["breakfast", "brunch"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["breakfast", "lunch"],
-  //   },
-  //   {
-  //     id: 4,
-  //     image: "/assets/img/dish-1.png",
-  //     title: "Spaghetti with mushrooms and...",
-  //     tags: ["breakfast", "brunch", "dinner"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["others"],
-  //   },
-  //   {
-  //     id: 5,
-  //     image: "/assets/img/dish-2.png",
-  //     title: "Veal meat, tomatoes and...",
-  //     tags: ["breakfast", "brunch"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["others"],
-  //   },
-  //   {
-  //     id: 6,
-  //     image: "/assets/img/dish-4.png",
-  //     title: "Sliced pork, avocado and...",
-  //     tags: ["breakfast", "brunch"],
-  //     price: 39,
-  //     quantity: 1,
-  //     category: ["others"],
-  //   },
+  //   }
   // ];
 
 
@@ -142,7 +70,7 @@ const RestaurantCard = () => {
 
   }, []);
 
-  console.log(restaurantData);
+  console.log("Check restaurantData:",restaurantData);
   console.table("Check itiem", items);
 
   return (
@@ -168,7 +96,7 @@ const RestaurantCard = () => {
                       <Link href="/">Home</Link>
                     </li>
                     <li>
-                      <Link href="/">
+                      <Link href="/restaurants">
                         <i className="fa-solid fa-right-long"/>
                         Restaurants
                       </Link>
@@ -192,19 +120,57 @@ const RestaurantCard = () => {
                   </div>
                   <div className="rate">
                     <span>Rate:</span>
+
                     <div className="star">
-                      <i className="fa-solid fa-star"/>
-                      <i className="fa-solid fa-star"/>
-                      <i className="fa-solid fa-star"/>
-                      <i className="fa-solid fa-star"/>
-                      <i className="fa-regular fa-star-half-stroke"/>
+                      {typeof restaurantData.rate === 'number' && !isNaN(restaurantData.rate) && (
+                          <>
+                            {[...Array(Math.floor(restaurantData.rate))].map((_, index) => (
+                                <i key={index} className="fa-solid fa-star"/>
+                            ))}
+                            {restaurantData.rate % 1 !== 0 && (
+                                <i className="fa-regular fa-star-half-stroke"/>
+                            )}
+                            {[...Array(5 - Math.ceil(restaurantData.rate))].map((_, index) => (
+                                <i key={index + Math.ceil(restaurantData.rate)} className="fa-regular fa-star"/>
+                            ))}
+                          </>
+                      )}
                     </div>
+
                     <span>CUISINES:</span>
+                    {/*<div className="cafa-button">*/}
+                    {/*  {" "}*/}
+                    {/*  <a href="#">american</a> <a href="#">steakhouse</a>{" "}*/}
+                    {/*  <a href="#">seafood</a>*/}
+                    {/*</div>*/}
+                    {/*<div className="cafa-button">*/}
+                    {/*  {" "}*/}
+                    {/*  <a href="#">{restaurantData.cuisines}</a>*/}
+                    {/*</div>*/}
                     <div className="cafa-button">
-                      {" "}
-                      <a href="#">american</a> <a href="#">steakhouse</a>{" "}
-                      <a href="#">seafood</a>
+                      {restaurantData.tags && restaurantData.tags.split(',').map((tag, i) => (
+                          <div key={i} style={{display: 'inline-block'}}>
+                            <a href="#">{tag.trim()}</a>
+                          </div>
+                      ))}
+                      {restaurantData.cuisines && restaurantData.cuisines.length > 0 ? (
+                          <>
+                            {restaurantData.cuisines.map((type, i) => (
+                                <Fragment key={i}>
+                                  <div className="cafa-button" style={{display: 'inline-block'}}>
+                                    {" "}
+                                    <a href="#">{type.trim()}</a>
+                                  </div>
+                                  {" "}
+                                </Fragment>
+                            ))}
+                          </>
+                      ) : (
+                          <span>Cuisines not available</span>
+                      )}
                     </div>
+
+
                     <span>FEATURES:</span>
                     <p>
                       {restaurantData && restaurantData.description}
@@ -222,19 +188,50 @@ const RestaurantCard = () => {
                   <img alt="man" src="assets/img/imageTheme/restaurant-1.jpg"/>
                   <div className="hours">
                     <i className="fa-regular fa-clock"/>
-                    <h4>
-                      9am – 12pm
+
+                    <h4 style={{fontWeight: 'bold'}}>
+                      {restaurantData && restaurantData.hourStart && restaurantData.hourEnd ? (
+                          <>
+                            {restaurantData.hourStart[0]}am - {restaurantData.hourEnd[0]}pm
+                          </>
+                      ) : (
+                          <span>No meals available</span>
+                      )}
                       <br/>
                       <span>Hours</span>
                     </h4>
+
+
                   </div>
                   <div className="hours two">
                     <i className="fa-solid fa-utensils"/>
-                    <h4>
-                      Breakfast, Lunch, Dinner
+                    <h4 style={{fontWeight: 'bold'}}>
+                      {restaurantData.meals && restaurantData.meals.length > 0 ? (
+                          <>
+                            {restaurantData.meals.map((meal, index) => (
+                                <h4
+                                    key={index}
+                                    style={{
+                                      display: 'inline-block',
+                                      margin: '0',
+                                      padding: '0',
+                                      marginRight: '5px',
+                                      fontWeight: 'inherit' // Giữ kiểu in đậm từ thẻ <h4>
+                                    }}
+                                >
+                                  {meal}
+                                  {index < restaurantData.meals.length - 1 && ', '}
+                                </h4>
+                            ))}
+                          </>
+                      ) : (
+                          <span>No meals available</span>
+                      )}
                       <br/>
                       <span>Meals</span>
                     </h4>
+
+
                   </div>
                 </div>
               </div>

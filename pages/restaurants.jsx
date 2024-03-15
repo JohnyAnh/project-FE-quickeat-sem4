@@ -1,12 +1,13 @@
 import Subscribe from "@/src/components/Subscribe";
 import Layout from "@/src/layouts/Layout";
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import RestaurantService from "@/src/services/restaurantService";
 import {useRouter} from "next/router";
 const Restaurants = (props) => {
   const [restaurant, setRestaurant] = useState([]);
-  // const [randomRestaurant, setRandomRestaurant] = useState(null);
+  const [topRestaurant, setTopRestaurant] = useState();
+  const [reqtopRestaurant] = useState({pageSize:1})
   const router = useRouter();
 
   const handleRestaurantClick = (id) => {
@@ -35,8 +36,25 @@ const Restaurants = (props) => {
         });
   }, []);
 
+  useEffect(() => {
+
+    RestaurantService.findRestaurants(reqtopRestaurant)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.length > 0) {
+            setTopRestaurant(res.data);
+          } else {
+            console.log("No rep topRestaurant found.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, []);
+
   console.log("check restaurant:", restaurant);
-  // console.log("check restaurant:", randomRestaurant);
+  console.log("check topRestaurant:", topRestaurant);
+
 
 
   return (
@@ -72,7 +90,7 @@ const Restaurants = (props) => {
                   <div className="nice-select-one">
                     {restaurant.length > 0 && (
                         <select className="nice-select Advice" onChange={(e) => handleRestaurantChange(e.target.value)}>
-                          <option>Choose a Restaurant</option>
+                          <option >Choose a Restaurant</option>
                           {restaurant.map((e, k) => (
                               <option key={e.id} value={e.id}>{e.name}</option>
                           ))}
@@ -132,28 +150,24 @@ const Restaurants = (props) => {
                 of the Month
                 <span className="chevron chevron--left"/>
               </h4>
-              {/*<div className="banner-wilmington">*/}
-              {/*  /!* Render the Banner component *!/*/}
-              {/*  {randomRestaurant && (*/}
-              {/*      <div className="banner-wilmington">*/}
-              {/*        {randomRestaurant.images && randomRestaurant.images.map((image, index) => (*/}
-              {/*            <img*/}
-              {/*                key={index}*/}
-              {/*                src={image.url}*/}
-              {/*                alt={`gif-${index}`}*/}
-              {/*                style={{ width: "65px", height: "60px" }}*/}
-              {/*            />*/}
-              {/*        ))}*/}
-              {/*        <h6>{randomRestaurant.name}</h6>*/}
-              {/*      </div>*/}
-              {/*  )}*/}
-              </div>
-
               <div className="banner-wilmington">
-                <img alt="logo" src="assets/img/logo-s.jpg" />
-                <h6>The Wilmington</h6>
+                {topRestaurant && topRestaurant.map((te, i) => (
+                    <div className="banner-wilmington" key={i}>
+                      {te.images && te.images.map((image, index) => (
+                          <img
+                              key={index}
+                              src={image.url}
+                              alt={`gif-${index}`}
+                              style={{ width: "50px", height: "50px" }}
+                          />
+                      ))}
+                      <h6>{te.name}</h6>
+                    </div>
+                ))}
               </div>
-            {/*</div>*/}
+            </div>
+
+
             <div className="row">
               <div className="col-xl-6 col-lg-12">
                 <div className="choose-lunches">
@@ -161,7 +175,7 @@ const Restaurants = (props) => {
                   <h3>pay for one</h3>{" "}
                   <a href="#" className="button button-2 non">
                     Order Now
-                    <i className="fa-solid fa-arrow-right" />
+                    <i className="fa-solid fa-arrow-right"/>
                   </a>
                 </div>
               </div>
@@ -196,21 +210,44 @@ const Restaurants = (props) => {
                           {" "}
                           <a href="#" onClick={() => handleRestaurantClick(e.id)}>{e.name}</a>
                         </h4>
-                        {/*Fake data*/}
+                        {/*Star*/}
                         <div>
-                          <i className="fa-solid fa-star"/>
-                          <i className="fa-solid fa-star"/>
-                          <i className="fa-solid fa-star"/>
-                          <i className="fa-solid fa-star"/>
-                          <i className="fa-solid fa-star"/>
+                          {[...Array(Math.floor(e.rate))].map((_, index) => (
+                              <i key={index} className="fa-solid fa-star"/>
+                          ))}
+                          {e.rate % 1 !== 0 && (
+                              <i className="fa-regular fa-star-half-stroke"/>
+                          )}
+                          {[...Array(5 - Math.ceil(e.rate))].map((_, index) => (
+                              <i key={index + Math.ceil(e.rate)} className="fa-regular fa-star"/>
+                          ))}
                         </div>
+
+
                         <div className="cafa-button">
-                          {" "}
-                          <a href="#">american</a> <a href="#">steakhouse</a>
-                          <a className="end" href="#">
-                            seafood
-                          </a>
+                          {e.tags && e.tags.split(',').map((tag, i) => (
+                              <div key={i} style={{display: 'inline-block'}}>
+                                <a href="#">{tag.trim()}</a>
+                              </div>
+                          ))}
+                          {e.cuisines && e.cuisines.length > 0 ? (
+                              <>
+                                {e.cuisines.map((type, i) => (
+                                    <Fragment key={i}>
+                                      <div className="cafa-button" style={{display: 'inline-block'}}>
+                                        {" "}
+                                        <a href="#">{type.trim()}</a>
+                                      </div>
+                                      {" "}
+                                    </Fragment>
+                                ))}
+                              </>
+                          ) : (
+                              <span>Cuisines not available</span>
+                          )}
                         </div>
+
+
                         {/*Fake data*/}
 
                         {/*<div>*/}
@@ -237,7 +274,7 @@ const Restaurants = (props) => {
         </div>
       </section>
       {/* subscribe-section */}
-      <Subscribe />
+      <Subscribe/>
     </Layout>
   );
 };
