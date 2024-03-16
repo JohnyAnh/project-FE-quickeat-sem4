@@ -1,7 +1,28 @@
 import { Fragment, useState } from "react";
+import cartService from "@/src/services/cartService";
+
 const Item = ({ item }) => {
   const [cardInfo, setCardInfo] = useState(false);
   const [quantity, setQuantity] = useState(1);
+
+  // const [cart, setCart] = useState({
+  //   productId: "",
+  //   restaurantId: "",
+  //   qty:1
+  // })
+  // console.log(quantity);
+
+  const addToCart = async () => {
+    const newCart = {
+      productId: item.id,
+      restaurantId: item.restaurant.id,
+      qty: quantity // Sử dụng giá trị của quantity
+    };
+    await cartService.createCart(newCart);
+
+  };
+  // console.log(addToCart);
+
   return (
     <div
       className="col-xl-4 col-lg-6"
@@ -103,9 +124,9 @@ const Item = ({ item }) => {
               </button>
             </div>
           </div>
-          <button className="button-price">
+          <button className="button-price" onClick={addToCart}>
             Add to Basket
-            <i className="fa-solid fa-bag-shopping" />
+            <i className="fa-solid fa-bag-shopping"  />
           </button>
         </div>
         <div
