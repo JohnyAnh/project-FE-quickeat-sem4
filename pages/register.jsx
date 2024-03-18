@@ -40,7 +40,7 @@ export default function Register() {
                     <div className="container container-tight py-4">
                         <div className="text-center mb-4">
                             <Link href="/">
-                                <img src="./static/logo.svg" height="36" alt="" />
+                                <img src="./assets/img/imageTheme/logobrandSVG.png" height="100" alt=""/>
                             </Link>
                         </div>
                         <div className="row justify-content-center">
@@ -126,7 +126,7 @@ export default function Register() {
                                                 // disabled={email && password ? false : true}
                                                 onClick={() => handleRegister()}
 
-                                                className="btn btn-primary w-100">
+                                                className="btn btn-warning w-100">
                                                 Create new account
                                             </button>
                                         </div>

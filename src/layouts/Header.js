@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from "react-toastify";
+import Checkout from "@/pages/checkout";
 
 
 const Header = ({ extraClass }) => {
@@ -165,7 +166,7 @@ const Header = ({ extraClass }) => {
                   <div className="dropdown">
                     <Link href="restaurants">Restaurants</Link>
                     {/*<Link href="restaurant-card">Restaurant Card</Link>*/}
-                    <Link href="checkout">Checkout</Link>
+                    <Link href="Carts">Carts</Link>
                   </div>
                 </li>
 
@@ -207,7 +208,7 @@ const Header = ({ extraClass }) => {
               >
                 <i className="fa-solid fa-bag-shopping"/>
               </a>
-              <Link href="checkout" className="button button-2">
+              <Link href="/Carts" className="button button-2">
                 Order Now
               </Link>
               <Link href="/" legacyBehavior>
