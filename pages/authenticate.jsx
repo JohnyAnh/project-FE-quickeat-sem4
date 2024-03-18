@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {toast} from "react-toastify";
+import Swal from "sweetalert2";
 
 
 
@@ -36,6 +37,7 @@ const LoginPage = () => {
     const handleLogin = async () => {
         if (!email || !password) {
             toast.error("email/ Password is required");
+            // Swal.fire("email/ Password is required");
             return;
         }
         dispatch(handleLoginRedux(email, password));
@@ -49,7 +51,8 @@ const LoginPage = () => {
                 <div className="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
                     <div className="container container-tight my-5 px-lg-5">
                         <div className="text-center mb-4">
-                            <a href="." className="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt="" /></a>
+                            <a href="." className="navbar-brand navbar-brand-autodark"><img src="./assets/img/imageTheme/logobrand.png" height="100" alt="" /></a>
+                            {/*<a href="." className="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt="" /></a>*/}
                         </div>
                         <h2 className="h3 text-center mb-3">
                             Login to your account
@@ -58,7 +61,7 @@ const LoginPage = () => {
                             <div className="mb-3">
                                 <label className="form-label">Email</label>
                                 <input
-                                    type="text"
+                                    type="email"
                                     className="form-control"
                                     placeholder="email"
                                     autoComplete="off"
@@ -98,7 +101,7 @@ const LoginPage = () => {
                             </div> */}
                             <div className="form-footer">
                                 <button
-                                    className="btn btn-primary w-100"
+                                    className="btn btn-warning w-100"
                                     disabled={email && password ? false : true}
                                     onClick={() => handleLogin()}
 
@@ -113,7 +116,8 @@ const LoginPage = () => {
                 <div className="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
                     {/* Photo */}
 
-                    <div className="bg-cover h-100 min-vh-100" style={{ backgroundImage: "url(/static/photos/finances-us-dollars-and-bitcoins-currency-money-2.jpg)" }}></div>
+                    {/*<div className="bg-cover h-100 min-vh-100" style={{ backgroundImage: "url(/static/photos/finances-us-dollars-and-bitcoins-currency-money-2.jpg)" }}></div>*/}
+                    <div className="bg-cover h-100 min-vh-100" style={{ backgroundImage: "url(/assets/img/imageTheme/backGround-Login.jpeg)" }}></div>
 
                 </div>
             </div>

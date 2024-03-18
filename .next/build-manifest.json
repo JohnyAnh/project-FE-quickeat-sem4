@@ -27,15 +27,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/authenticate": [
+    "/checkout": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/authenticate.js"
+      "static/chunks/pages/checkout.js"
     ],
-    "/restaurant-card": [
+    "/thank-you": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/restaurant-card.js"
+      "static/chunks/pages/thank-you.js"
     ]
   },
   "ampFirstPages": []

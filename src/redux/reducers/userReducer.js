@@ -1,4 +1,24 @@
 import { FETCH_USER_LOGIN, FETCH_USER_ERROR, FETCH_USER_SUCCESS, USER_LOGOUT, USER_REFRESH, FETCH_USER_REGISTER } from '../actions/userAction'
+import Swal from "sweetalert2";
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+const Alert = () => {
+    Swal.fire(
+        'Success!',
+        'You clicked the button!',
+        'success'
+    )
+}
+const AlertFail = () => {
+    Swal.fire(
+        'Failed!',
+        'Something went wrong!',
+        'error'
+    )
+}
+const headers = {
+    'Content-Type': 'multipart/form-data',
+};
 
 const INITIAL_STATE = {
 
@@ -25,6 +45,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
             };
 
         case FETCH_USER_ERROR:
+            toast.error("email/ Password is required");
             return {
                 ...state,
                 account: {
@@ -35,7 +56,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
             };
 
         case FETCH_USER_SUCCESS:
-            console.log("Check action: ", action)
+            console.log("Check action: ", action);
+            Alert();
             return {
                 ...state,
                 account: {
@@ -50,8 +72,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case USER_LOGOUT:
             localStorage.removeItem('email')
             localStorage.removeItem('jwt')
-            // localStorage.removeItem('userId')
-
+            Alert();
             return {
                 ...state,
                 account: {
@@ -59,6 +80,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     jwt: '',
                     auth: false
                 }
+
             };
 
         case USER_REFRESH:

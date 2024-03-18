@@ -6,13 +6,12 @@ const headers = {
 };
 
 const getAuthorizationHeader = () => {
-    const storedState = localStorage.getItem('state');
+    const storedState = localStorage.getItem('jwt');
     if (storedState) {
-        const userlogin = JSON.parse(storedState).userlogin;
-        if (userlogin && userlogin.jwt) {
+        if (storedState) {
             return {
                 ...headers,
-                'Authorization': `Bearer ${userlogin.jwt}`,
+                'Authorization': `Bearer ${storedState}`,
             };
         }
     }

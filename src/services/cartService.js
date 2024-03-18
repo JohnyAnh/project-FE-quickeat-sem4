@@ -20,7 +20,7 @@ const getAuthorizationHeader = () => {
 
 const cartService = {
 
-    getProducts: async () => {
+    getCarts: async () => {
         try {
             const response = await axios.get(API_URL, {headers:getAuthorizationHeader()});
             return response.data;

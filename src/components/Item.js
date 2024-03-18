@@ -1,24 +1,39 @@
 import { Fragment, useState } from "react";
 import cartService from "@/src/services/cartService";
+import Swal from "sweetalert2";
+import {toast} from "react-toastify";
+import {useContext} from "react";
+import {CartContext} from "@/src/components/CartContext.js:";
+const Alert = () => {
+  Swal.fire(
+      'Success!',
+      'You clicked the button!',
+      'success'
+  )
+}
+const AlertFail = () => {
+  Swal.fire(
+      'Failed!',
+      'Something went wrong!',
+      'error'
+  )
+}
 
 const Item = ({ item }) => {
   const [cardInfo, setCardInfo] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useContext(CartContext);
 
-  // const [cart, setCart] = useState({
-  //   productId: "",
-  //   restaurantId: "",
-  //   qty:1
-  // })
-  // console.log(quantity);
+  // CAC HAM VIET GOI APT VIET HET TRONG CartContext DE QUAN LY
+  const handleAddToCart = async () => {
+    try {
+      addToCart(item.id,item.restaurant.id,quantity);
+      toast.success("This item added to the cart");
+    }catch (e) {
+      toast.error("Failed to add item to cart")
+    }
 
-  const addToCart = async () => {
-    const newCart = {
-      productId: item.id,
-      restaurantId: item.restaurant.id,
-      qty: quantity // Sử dụng giá trị của quantity
-    };
-    await cartService.createCart(newCart);
+
 
   };
   // console.log(addToCart);
@@ -124,7 +139,7 @@ const Item = ({ item }) => {
               </button>
             </div>
           </div>
-          <button className="button-price" onClick={addToCart}>
+          <button className="button-price" onClick={handleAddToCart}>
             Add to Basket
             <i className="fa-solid fa-bag-shopping"  />
           </button>

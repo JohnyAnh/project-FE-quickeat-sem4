@@ -1,6 +1,20 @@
-// import { toast } from "react-toastify";
 import { loginApi, registerApi } from "@/src/services/auth.service";
-
+import {toast} from "react-toastify";
+import Swal from "sweetalert2";
+const Alert = () => {
+    Swal.fire(
+        'Success!',
+        'You clicked the button!',
+        'success'
+    )
+}
+const AlertFail = () => {
+    Swal.fire(
+        'Failed!',
+        'Something went wrong!',
+        'error'
+    )
+}
 
 export const FETCH_USER_LOGIN = 'FETCH_USER_LOGIN';
 export const FETCH_USER_ERROR = 'FETCH_USER_ERROR';
@@ -25,6 +39,7 @@ export const handleLoginRedux = (email, password) => {
                 type: FETCH_USER_SUCCESS,
                 data: { email: email.trim(), jwt: res.data.jwt }
             });
+
 
 
         } else {

@@ -2,8 +2,11 @@ import Head from "next/head";
 import { Fragment, useEffect, useState } from "react";
 import PreLoader from "@/src/layouts/PreLoader";
 import "@/styles/globals.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from "react-redux";
 import { handleRefresh } from "@/src/redux/actions/userAction";
+
 
 import store from "@/src/redux/store";
 import { Provider } from "react-redux";
@@ -13,6 +16,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import {useRouter} from "next/router";
 import RestaurantDetail from "@/pages/restaurant-card";
+
+import {CartProvider} from "@/src/components/CartContext.js:";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -59,6 +64,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
+      <CartProvider>
       {/* <React.StrictMode> */}
       <Head>
         {/* seo begin */}
@@ -69,6 +75,7 @@ export default function App({ Component, pageProps }) {
       {preLoader && <PreLoader />}
       {!preLoader && <WrappedComponent />}
       {/* </React.StrictMode> */}
+        </CartProvider>
     </Provider>
   );
 }
