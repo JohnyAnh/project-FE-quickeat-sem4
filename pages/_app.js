@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useRouter} from "next/router";
 import RestaurantDetail from "@/pages/restaurant-card";
 
-import {CartProvider} from "@/src/components/CartContext.js:";
+import {CartProvider} from "@/src/components/CartContext";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();

@@ -3,7 +3,7 @@ import cartService from "@/src/services/cartService";
 import Swal from "sweetalert2";
 import {toast} from "react-toastify";
 import {useContext} from "react";
-import {CartContext} from "@/src/components/CartContext.js:";
+import {CartContext} from "@/src/components/CartContext";
 const Alert = () => {
   Swal.fire(
       'Success!',

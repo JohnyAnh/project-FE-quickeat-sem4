@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import RestaurantService from "@/src/services/restaurantService";
 import cartService from "@/src/services/cartService";
-import {useCart} from "@/src/components/CartContext.js:";
+import {useCart} from "@/src/components/CartContext";
 import {useRouter} from "next/router";
 import Swal from "sweetalert2";
 import {toast} from "react-toastify";
