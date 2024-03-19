@@ -2,7 +2,7 @@ import Layout from "@/src/layouts/Layout";
 import Link from "next/link";
 const BecomePartner = () => {
   return (
-    <Layout headerExtaClass={"two"}>
+    <Layout headerExtaClass={"two"} >
       <section
         className="hero-section about blog-page gap"
         style={{ backgroundImage: "url(assets/img/imageTheme/blog-img-1.jpg)" }}

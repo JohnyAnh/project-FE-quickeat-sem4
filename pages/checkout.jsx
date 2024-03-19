@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import cartService from "@/src/services/cartService";
 import orderService from "@/src/services/orderService";
 import Swal from "sweetalert2";
+import {PayPalButtons} from "@paypal/react-paypal-js";
 const Checkout = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -15,10 +16,10 @@ const Checkout = () => {
   const [reqCart] = useState({reqCart: id});
   const [cartData, setCartData] = useState(null);
   const [buyerInfo, setBuyerInfo] = useState({
-    // name: "",
+    name: "",
     phone: "",
     notes: "",
-    address: "",
+    address: ""
   });
 
   useEffect(() => {
@@ -53,10 +54,11 @@ const Checkout = () => {
     const orderData = {
       note: buyerInfo.notes,
       address: buyerInfo.address,
-      // name: buyerInfo.name,
+      name: buyerInfo.name,
       phone: buyerInfo.phone,
       totalMoney: cartData.subTotal,
       cartId: cartData.id,
+      email:cartData.user.email
 
     };
 
@@ -150,34 +152,38 @@ const Checkout = () => {
         <div className="container">
           <div className="row">
             <div
-              className="col-xl-5 col-lg-12"
-              data-aos="flip-up"
-              data-aos-delay={200}
-              data-aos-duration={300}
+                className="col-xl-5 col-lg-12"
+                data-aos="flip-up"
+                data-aos-delay={200}
+                data-aos-duration={300}
             >
-              <CheckoutOrder />
+              <CheckoutOrder/>
             </div>
             <div
-              className="offset-xl-1 col-xl-6 col-lg-12"
-              data-aos="flip-up"
-              data-aos-delay={300}
-              data-aos-duration={400}
+                className="offset-xl-1 col-xl-6 col-lg-12"
+                data-aos="flip-up"
+                data-aos-delay={300}
+                data-aos-duration={400}
             >
               <form
                   onSubmit={(e) => e.preventDefault()} className="checkout-form"
               >
                 <h4>Buyer information</h4>
-                {/*<input type="text" name="Name" placeholder="Full Name"*/}
-                {/*       value={buyerInfo.name}*/}
-                {/*       onChange={(e) => setBuyerInfo({ ...buyerInfo, name: e.target.value })}*/}
+                <input type="text" name="Name" placeholder="Full Name"
+                       value={buyerInfo.name}
+                       onChange={(e) => setBuyerInfo({ ...buyerInfo, name: e.target.value })}
+                />
+                {/*<input type="text" name="Email" placeholder="Email"*/}
+                {/*       value={buyerInfo.email}*/}
+                {/*       onChange={(e) => setBuyerInfo({ ...buyerInfo, emmail: e.target.value })}*/}
                 {/*/>*/}
                 <input type="text" name="Phone" placeholder="Phone"
                        value={buyerInfo.phone}
-                       onChange={(e) => setBuyerInfo({ ...buyerInfo, phone: e.target.value })}
+                       onChange={(e) => setBuyerInfo({...buyerInfo, phone: e.target.value})}
                 />
                 <input type="text" name="Notes" placeholder="Notes"
                        value={buyerInfo.notes}
-                       onChange={(e) => setBuyerInfo({ ...buyerInfo, notes: e.target.value })}
+                       onChange={(e) => setBuyerInfo({...buyerInfo, notes: e.target.value})}
                 />
 
                 {/*<div className="row">*/}
@@ -198,7 +204,7 @@ const Checkout = () => {
                 {/*</select>*/}
                 <input type="text" name="Name" placeholder="Addres"
                        value={buyerInfo.address}
-                       onChange={(e) => setBuyerInfo({ ...buyerInfo, address: e.target.value })}
+                       onChange={(e) => setBuyerInfo({...buyerInfo, address: e.target.value})}
                 />
                 {/*<div className="row">*/}
                 {/*  <div className="col-lg-6">*/}
@@ -308,8 +314,25 @@ const Checkout = () => {
                   </div>
                 </div>
                 <button className="button-price" onClick={handleSummitOrder}>Send</button>
+
               </form>
             </div>
+            {/*<div>*/}
+
+
+            {/*  <PayPalButtons*/}
+            {/*      options={{*/}
+            {/*        "vault": true,*/}
+            {/*        "client-id": "AR86XShHEggIM0YzMF6FdymWDWPkpjh7mx-PDVlwis1Ve0HRniLtcaaIjPLMDDw-MZPi89PNeLAmuKrd"*/}
+            {/*      }}*/}
+
+            {/*      // amount={contract.giatrihopdong}*/}
+            {/*      // shippingPreference="NO_SHIPPING" // default is np"GET_FROM_FILE"*/}
+            {/*      // onSuccess={successPaymentHandler}*/}
+
+            {/*  />*/}
+
+            {/*</div>*/}
           </div>
         </div>
       </section>

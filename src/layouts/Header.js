@@ -50,7 +50,7 @@ const Header = ({ extraClass }) => {
   console.log(">>>Check user data: ", user);
 
   return (
-    <header className={extraClass}>
+    <header className={`${extraClass} fixed-top bg-light`}>
       <div className="container">
         <div className="row align-items-center">
           <div className="col-xl-2">
