@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/orders";
 const headers = {
-    // 'Content-Type': 'multipart/form-data',
+    'Content-Type': 'multipart/form-data',
 };
 
 const getAuthorizationHeader = () => {
@@ -20,7 +20,7 @@ const getAuthorizationHeader = () => {
 
 const orderService = {
 
-    getCarts: async () => {
+    getOrders: async () => {
         try {
             const response = await axios.get(API_URL, {headers:getAuthorizationHeader()});
             return response.data;
@@ -31,7 +31,9 @@ const orderService = {
 
     findOrders: async (order) => {
         try {
-            const response = await axios.post(API_URL + "/list", order, {headers:getAuthorizationHeader()});
+            const headers = getAuthorizationHeader();
+            delete headers['Content-Type'];
+            const response = await axios.post(API_URL + "/list", order, {headers});
             return response.data;
         } catch (error) {
             throw error;

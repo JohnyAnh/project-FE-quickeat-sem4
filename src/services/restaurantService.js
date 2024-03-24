@@ -31,7 +31,7 @@ const restaurantService = {
 
     findRestaurants: async (restaurant) => {
         try {
-            const response = await axios.post(API_URL + "/list", restaurant, {headers:getAuthorizationHeader()});
+            const response = await axios.post(API_URL + "/list", restaurant, );
             return response.data;
         } catch (error) {
             throw error;
