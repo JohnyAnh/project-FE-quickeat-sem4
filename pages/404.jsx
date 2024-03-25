@@ -23,7 +23,7 @@ const E404 = () => {
             </form>
             <img
               alt="girl"
-              src="assets/img/404.png"
+              src="assets/img/imageTheme/404.png"
               data-aos="flip-up"
               data-aos-delay={300}
               data-aos-duration={400}

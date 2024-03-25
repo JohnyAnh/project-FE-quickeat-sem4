@@ -96,7 +96,7 @@ const MyOrderDetailFuntion = ({sidebar}) => {
                 <div className="container">
 
                     <div className=" justify-content-center">
-                        <div className="col-md-12 text-center mb-5">
+                        <div className="col-md-12 text-left mb-5">
                             <b>From: </b>
                             {orderDetailData.map((order, index) => (
                                 <a key={index}>
@@ -174,10 +174,25 @@ const MyOrderDetailFuntion = ({sidebar}) => {
                                                     }).format(orderDetail.total)}</td>
                                                 </tr>
                                             ))}
+                                            {/*Tônổng tien: {orderDetailData.totalMoney}*/}
                                         </React.Fragment>
                                     ))}
-
-
+                                    <td>{" "}</td>
+                                    <td>{" "}</td>
+                                    <td>{" "}</td>
+                                    <td style={{textAlign: 'center', fontSize:'20px'}}><b>Total order value:</b>
+                                        {orderDetailData.map((order, index) => (
+                                            <a key={index}>
+                                                <b style={{fontSize:'20px'}}>{new Intl.NumberFormat('en-US', {
+                                                    style: 'currency',
+                                                    currency: 'USD'
+                                                }).format(order.totalMoney)}</b>
+                                            </a>
+                                        ))}
+                                    </td>
+                                    <td>{" "}</td>
+                                    <td>{" "}</td>
+                                    <td>{" "}</td>
                                     </tbody>
                                 </table>
                             </div>

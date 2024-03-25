@@ -70,7 +70,10 @@ const Header = ({ extraClass }) => {
     }
   }, [user, router.pathname]);
 
-  console.log(">>>Check user data: ", user);
+  console.log(">>>Check user: ", user);
+
+
+
 
   return (
     <header className={`${extraClass} fixed-top bg-light`}>
@@ -297,7 +300,7 @@ const Header = ({ extraClass }) => {
                           <div>
                             {user && user.auth === true ? (
                                 <>
-                                  <a href="Yourprofile">Your Profile</a>
+                                  <a href="yourprofile">Your Profile</a>
                                   <a href="myorder">My Order</a>
                                   <a onClick={handleLogOut}>Logout</a>
                                 </>
