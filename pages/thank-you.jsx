@@ -24,7 +24,7 @@ const thank_you = () => {
                   </li>
                   <li className="two">
                     <Link href="/">
-                      <i className="fa-solid fa-right-long" /> About Us
+                      <i className="fa-solid fa-right-long" /> Thanks
                     </Link>
                   </li>
                 </ul>
