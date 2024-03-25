@@ -13,22 +13,35 @@ import userService from "@/src/services/userService";
 
 
 const Header = ({ extraClass }) => {
-  // const [userData, setUserData] = useState([]);
-  // useEffect(() => {
-  //   userService.getUsers()
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         if (res.data.length > 0) {
-  //           setUserData(res.data);
-  //         } else {
-  //           console.log("No user found.");
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  // }, []);
-  // console.log("userData",userData)
+  const [userData, setUserdata] = useState({
+    userId:"",
+    email: "",
+    name: "",
+    tel: "",
+    address: "",
+    img: null
+  });
+  const Email = localStorage.getItem('email');
+  const [reqEmail] = useState({email:Email})
+
+
+  useEffect(() => {
+    // if (email) {
+    userService.findUsers(reqEmail)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.length > 0) {
+            const firstUser = res.data[0];
+            setUserdata(firstUser);
+          } else {
+            console.log("No user found.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    // }
+  }, []);
   const onClick = (e) => {
     const body = document.querySelector("body");
     body.classList.toggle("active");
@@ -71,6 +84,7 @@ const Header = ({ extraClass }) => {
   }, [user, router.pathname]);
 
   console.log(">>>Check user: ", user);
+  console.log(">>>Check userData: ", userData);
 
 
 
@@ -285,7 +299,25 @@ const Header = ({ extraClass }) => {
                       className={"navbar-item"}
                       style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}
                   >
-                    <img src="/assets/img/imageTheme/author-img-2.jpg" alt="Avatar"/>
+                    {userData.images && userData.images.length > 0 ? (
+                        userData.images.map((image, index) => (
+                            <img
+                                height="50px"
+                                key={index}
+                                src={image.url}
+                                id="profile-image"
+                                className="rounded-circle"
+                                alt="Avatar"
+                            />
+                        ))
+                    ) : (
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi9l3x_T90wLTxFRNtGjTcdi-naKnFfjSIsg&usqp=CAU" // Replace default_image_url_here with the URL of your default image
+                            id="profile-image"
+                            className="rounded-circle mt-5"
+                        />
+                    )}
+                    {/*<img src="/assets/img/imageTheme/author-img-2.jpg" alt="Avatar"/>*/}
                     <Link href="/">
                       <label>
                         <b>Welcome</b>
