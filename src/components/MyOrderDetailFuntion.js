@@ -46,14 +46,16 @@ const MyOrderDetailFuntion = ({sidebar}) => {
     const getStatusText = (status) => {
         switch (status) {
             case 1:
-                return "Waiting for order confirmation";
+                return "Order Waiting, payment Waiting";
             case 2:
-                return "Order confirmed, payment pending";
+                return "Order Waiting, payment completely";
             case 3:
-                return "Payment confirmed";
+                return "Order confirmed, payment Waiting";
             case 4:
-                return "Shipping";
+                return "Order confirmed, payment completely";
             case 5:
+                return "Shipping";
+            case 6:
                 return "Completed";
             case 0:
                 return "Cancelled";
@@ -66,12 +68,14 @@ const MyOrderDetailFuntion = ({sidebar}) => {
             case 1:
                 return "btn-warning";
             case 2:
-                return "btn-primary";
+                return "btn-warning";
             case 3:
                 return "btn-success";
             case 4:
-                return "btn-secondary";
+                return "btn-success";
             case 5:
+                return "btn-info";
+            case 6:
                 return "btn-dark";
             case 0:
                 return "btn-danger";

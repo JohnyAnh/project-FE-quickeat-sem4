@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/restaurants";
 const headers = {
-    // 'Content-Type': 'multipart/form-data',
+    'Content-Type': 'multipart/form-data',
 };
 
 const getAuthorizationHeader = () => {
@@ -22,7 +22,8 @@ const restaurantService = {
 
     getRestaurants: async () => {
         try {
-            const response = await axios.get(API_URL, {headers});
+
+            const response = await axios.get(API_URL, {headers:getAuthorizationHeader()});
             return response.data;
         } catch (error) {
             throw error;
@@ -31,6 +32,8 @@ const restaurantService = {
 
     findRestaurants: async (restaurant) => {
         try {
+            const headers = getAuthorizationHeader();
+            delete headers['Content-Type'];
             const response = await axios.post(API_URL + "/list", restaurant, );
             return response.data;
         } catch (error) {
@@ -39,7 +42,7 @@ const restaurantService = {
     },
 
     createRestaurant(restaurant) {
-        return axios.post(API_URL + "/create", restaurant, {headers:getAuthorizationHeader()});
+        return axios.post(API_URL + "/create", restaurant, {headers});
     },
 
     updateRestaurant(restaurant, restaurantId) {

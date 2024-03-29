@@ -1,9 +1,10 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/myorder": "pages/myorder.js",
+  "/thank-you": "pages/thank-you.js",
+  "/checkout": "pages/checkout.js",
   "/authenticate": "pages/authenticate.js",
-  "/restaurant-card": "pages/restaurant-card.js",
-  "/yourprofile": "pages/yourprofile.js",
   "/": "pages/index.js"
 }

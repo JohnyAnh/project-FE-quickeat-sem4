@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { toast } from "react-toastify";
 import Checkout from "@/pages/checkout";
 import userService from "@/src/services/userService";
+import jwt from "jsonwebtoken";
 
 
 const Header = ({ extraClass }) => {
@@ -21,18 +22,29 @@ const Header = ({ extraClass }) => {
     address: "",
     img: null
   });
-  const Email = localStorage.getItem('email');
-  const [reqEmail] = useState({email:Email})
+  // const Email = localStorage.getItem('email');
+  // const [reqEmail] = useState({email:Email});
 
+
+  const token = localStorage.getItem('jwt');
+  const decodedToken = jwt.decode(token);
+  const userId = decodedToken ? decodedToken.id : null;
 
   useEffect(() => {
     // if (email) {
-    userService.findUsers(reqEmail)
+    userService.findUsers(userId)
         .then((res) => {
           console.log(res.data);
           if (res.data.length > 0) {
             const firstUser = res.data[0];
-            setUserdata(firstUser);
+            setUserdata({
+              // userId: firstUser.id || "",
+              email: firstUser.email ||  "",
+              name: firstUser.name ||  "",
+              tel: firstUser.tel ||  "",
+              address: firstUser.address ||  "",
+              img: firstUser.images ||  ""
+            });
           } else {
             console.log("No user found.");
           }
@@ -312,9 +324,10 @@ const Header = ({ extraClass }) => {
                         ))
                     ) : (
                         <img
+                            height="50px"
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi9l3x_T90wLTxFRNtGjTcdi-naKnFfjSIsg&usqp=CAU" // Replace default_image_url_here with the URL of your default image
                             id="profile-image"
-                            className="rounded-circle mt-5"
+                            className="rounded-circle"
                         />
                     )}
                     {/*<img src="/assets/img/imageTheme/author-img-2.jpg" alt="Avatar"/>*/}

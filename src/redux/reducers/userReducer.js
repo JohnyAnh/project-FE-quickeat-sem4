@@ -57,7 +57,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
         case FETCH_USER_SUCCESS:
             console.log("Check action: ", action);
-            Alert();
+            // Alert();
+            toast.success("ok")
             return {
                 ...state,
                 account: {

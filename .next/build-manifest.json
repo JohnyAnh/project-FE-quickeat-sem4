@@ -32,15 +32,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/authenticate.js"
     ],
-    "/restaurant-card": [
+    "/myorder": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/restaurant-card.js"
+      "static/chunks/pages/myorder.js"
     ],
-    "/yourprofile": [
+    "/thank-you": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/yourprofile.js"
+      "static/chunks/pages/thank-you.js"
     ]
   },
   "ampFirstPages": []

@@ -3,6 +3,9 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import orderService from "@/src/services/orderService";
 import Link from "next/link";
+import jwt from 'jsonwebtoken';
+import {useRouter} from "next/router";
+import Swal from "sweetalert2";
 
 const MyOrderFuntion = ({sidebar}) => {
     const [orderData, setOrderData] = useState([]);
@@ -24,14 +27,16 @@ const MyOrderFuntion = ({sidebar}) => {
     const getStatusText = (status) => {
         switch (status) {
             case 1:
-                return "Waiting for order confirmation";
+                return "Order Waiting, payment Waiting";
             case 2:
-                return "Order confirmed, payment pending";
+                return "Order Waiting, payment completely";
             case 3:
-                return "Payment confirmed";
+                return "Order confirmed, payment Waiting";
             case 4:
-                return "Shipping";
+                return "Order confirmed, payment completely";
             case 5:
+                return "Shipping";
+            case 6:
                 return "Completed";
             case 0:
                 return "Cancelled";
@@ -39,37 +44,19 @@ const MyOrderFuntion = ({sidebar}) => {
                 return "Unknown";
         }
     };
-
-    // const getStatusText = (status) => {
-    //     switch (status) {
-    //         case 1:
-    //             return "Chờ xác nhận đơn hàng";
-    //         case 2:
-    //             return "Đã xác nhận đơn hàng chưa thanh toán";
-    //         case 3:
-    //             return "Xác nhận đã thanh toán";
-    //         case 4:
-    //             return "Đang vận chuyển";
-    //         case 5:
-    //             return "Đã hoàn thành";
-    //         case 0:
-    //             return "Đã huỷ";
-    //         default:
-    //             return "Unknown";
-    //     }
-    // };
-
     const getStatusClass = (status) => {
         switch (status) {
             case 1:
                 return "btn-warning";
             case 2:
-                return "btn-primary";
+                return "btn-warning";
             case 3:
                 return "btn-success";
             case 4:
-                return "btn-secondary";
+                return "btn-success";
             case 5:
+                return "btn-info";
+            case 6:
                 return "btn-dark";
             case 0:
                 return "btn-danger";
@@ -77,6 +64,66 @@ const MyOrderFuntion = ({sidebar}) => {
                 return "";
         }
     };
+
+    const token = localStorage.getItem('jwt');
+    const decodedToken = jwt.decode(token);
+    const userRole = decodedToken ? decodedToken.role : null;
+    const router = useRouter();
+
+
+    const handleUpdateShipping = async (orderId) => {
+        // e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure Confirm Delivery?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Confirm it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+
+                const t =  await orderService.updateOrder({status:5},orderId)
+                if (t != null) {
+                    await Swal.fire(
+                        'Confirm Success!',
+                        'Your file has been update.',
+                        'success'
+                    )
+                    await router.push("/myorder");
+
+                }
+            }
+        })
+    }
+    const handleUpdateCompleted = async (orderId) => {
+        // e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure Confirm Delivered?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Confirm it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+
+                const t =  await orderService.updateOrder({status:6},orderId)
+                if (t != null) {
+                    await Swal.fire(
+                        'Confirm Success!',
+                        'Your file has been update.',
+                        'success'
+                    )
+                    await router.push("/myorder");
+
+                }
+            }
+        })
+    }
+
 
     return (
         <div className={myorder.container}>
@@ -107,10 +154,14 @@ const MyOrderFuntion = ({sidebar}) => {
                                         <th>Invoce</th>
                                         <th>Customer</th>
                                         <th>Email</th>
+                                        <th>Phone</th>
                                         <th>Restaurant</th>
                                         <th>Delivery address</th>
                                         <th>Price</th>
                                         <th>Notes</th>
+                                        {userRole === 'ROLE_SHIPPER' && (
+                                            <th>Confirm</th>
+                                        )}
                                         <th>OrderDetail</th>
                                         <th>Status</th>
                                     </tr>
@@ -121,6 +172,7 @@ const MyOrderFuntion = ({sidebar}) => {
                                             <th scope="row">{order.id}</th>
                                             <td>{order.name}</td>
                                             <td>{order.email}</td>
+                                            <td>{order.phone}</td>
                                             <td>{order.restaurant.name}</td>
                                             <td>{order.address}</td>
                                             <td>{new Intl.NumberFormat('en-US', {
@@ -128,6 +180,33 @@ const MyOrderFuntion = ({sidebar}) => {
                                                 currency: 'USD'
                                             }).format(order.totalMoney)}</td>
                                             <td>{order.note}</td>
+                                            {userRole === 'ROLE_SHIPPER' && (
+                                                <td style={{ fontSize: "10px" }}>
+                                                    {order.status === 3 || order.status === 4 ? (
+                                                        <button
+                                                            className={"btn btn-outline-primary"}
+                                                            onClick={() => handleUpdateShipping(order.id)}
+                                                        >
+                                                            Confirm Delivery
+                                                        </button>
+                                                    ) : order.status === 5 ? (
+                                                        <button
+                                                            className={"btn btn-outline-primary"}
+                                                            onClick={() => handleUpdateCompleted(order.id)}
+                                                        >
+                                                            Delivered
+                                                        </button>
+                                                    ) : (
+                                                        <button className={"btn btn-outline-info"}>
+                                                            Info
+                                                        </button>
+                                                    )}
+                                                </td>
+                                            )}
+
+
+
+
 
                                             <td>
 

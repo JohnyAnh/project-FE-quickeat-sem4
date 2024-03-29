@@ -6,23 +6,24 @@ import { useRouter } from "next/router";
 import cartService from "@/src/services/cartService";
 import orderService from "@/src/services/orderService";
 import Swal from "sweetalert2";
-import { PayPalButtons } from "@paypal/react-paypal-js";
-
+import { PayPalButton } from "react-paypal-button-v2";
 const Checkout = () => {
   const router = useRouter();
   const { id } = router.query;
   const [tab, setTab] = useState("card");
   const [paymentMethod, setPaymentMethod] = useState("Send");
-
+  const[starP,setStarP]=useState(false);
+  const[totalPay,setTotalPay]=useState();
+  const[test,setTest]=useState("");
   const [reqCart] = useState({ reqCart: id });
   const [cartData, setCartData] = useState(null);
+  const [order, setOrder] = useState(0);
   const [buyerInfo, setBuyerInfo] = useState({
     name: "",
     phone: "",
     notes: "",
     address: ""
   });
-
   useEffect(() => {
     if (id) {
       cartService
@@ -38,12 +39,33 @@ const Checkout = () => {
           });
     }
   }, [id]);
+  const updatePayment = async () => {
+    // Đảm bảo có order và id của order được cung cấp
+    // if (!order || !order.id) {
+    //   console.error("Đơn hàng không hợp lệ!");
+    //   return;
+    // }
+    //
+    // // Thay đổi trạng thái đơn hàng từ 1 sang 2
+    // // order.status :{2};
 
+    // try {
+    //   // Gọi service để cập nhật đơn hàng
+      await orderService.updateOrder({status:2},order);
+      setTest("Thanh toán thành công");
+      await router.push("/thank-you");
+    // } catch (error) {
+    //   console.error("Lỗi khi cập nhật đơn hàng:", error);
+    //   // Xử lý lỗi ở đây nếu cần
+    // }
+  };
+
+
+  console.log(test);
   const handleSummitOrder = async () => {
     if (!cartData) return;
-
     if (!buyerInfo.phone || !buyerInfo.address) {
-      // Kiểm tra xem người dùng đã nhập đủ thông tin chưa
+// Kiểm tra xem người dùng đã nhập đủ thông tin chưa
       await Swal.fire({
         icon: "error",
         title: "Missing Information",
@@ -51,8 +73,7 @@ const Checkout = () => {
       });
       return;
     }
-
-    // Tạo đơn hàng
+// Tạo đơn hàng
     const orderData = {
       note: buyerInfo.notes,
       address: buyerInfo.address,
@@ -62,9 +83,9 @@ const Checkout = () => {
       cartId: cartData.id,
       email: cartData.user.email
     };
-
+    setTotalPay(cartData.subTotal);
     if (tab === "Cash") {
-      // Thực hiện tạo đơn hàng khi thanh toán bằng tiền mặt
+// Thực hiện tạo đơn hàng khi thanh toán bằng tiền mặt
       try {
         await orderService.createOrder(orderData);
         await Swal.fire({
@@ -82,12 +103,13 @@ const Checkout = () => {
         console.error("Failed to create order:", error);
       }
     } else {
-      // Thực hiện chuyển hướng đến trang thanh toán (ví dụ: PayPal)
-      // Bạn cần thay đổi URL bằng URL của trang thanh toán thực tế
-      window.location.href = "https://www.paypal.com";
+
+      const  rs = await orderService.createOrder(orderData);
+      setOrder(rs.data.id);
+      setStarP(true);
     }
   };
-
+  console.log(order);
   return (
       <Layout>
         <section
@@ -261,45 +283,45 @@ const Checkout = () => {
                         aria-labelledby="v-pills-home-tab"
                     >
                       {/* Payment method specific content */}
-                      <label>
-                        <input
-                            type="radio"
-                            name="test"
-                            defaultValue="small"
-                            defaultChecked
-                        />
-                        <img alt="checkbox-img" src="assets/img/checkbox-1.png" />
-                      </label>
-                      <label>
-                        <input type="radio" name="test" defaultValue="big" />
-                        <img alt="checkbox-img" src="assets/img/checkbox-2.png" />
-                      </label>
-                      <label>
-                        <input type="radio" name="test" defaultValue="big" />
-                        <img alt="checkbox-img" src="assets/img/checkbox-3.png" />
-                      </label>
-                      <input
-                          type="number"
-                          name="Name"
-                          placeholder="Card number"
-                      />
-                      <div className="row">
-                        <div className="col-lg-6">
-                          <input
-                              type="text"
-                              name="E-mail"
-                              placeholder="Expiration Date"
-                          />
-                        </div>
-                        <div className="col-lg-6">
-                          <input type="password" placeholder="CVV" />
-                        </div>
-                      </div>
-                      <label className="checkbox-one">
-                        Save my payments details for future purchases
-                        <input type="checkbox" defaultChecked="checked" />
-                        <span className="checkmark" />
-                      </label>
+                      {/* <label>
+<input
+type="radio"
+name="test"
+defaultValue="small"
+defaultChecked
+/>
+<img alt="checkbox-img" src="assets/img/checkbox-1.png" />
+</label>
+<label>
+<input type="radio" name="test" defaultValue="big" />
+<img alt="checkbox-img" src="assets/img/checkbox-2.png" />
+</label>
+<label>
+<input type="radio" name="test" defaultValue="big" />
+<img alt="checkbox-img" src="assets/img/checkbox-3.png" />
+</label>
+<input
+type="number"
+name="Name"
+placeholder="Card number"
+/>
+<div className="row">
+<div className="col-lg-6">
+<input
+type="text"
+name="E-mail"
+placeholder="Expiration Date"
+/>
+</div>
+<div className="col-lg-6">
+<input type="password" placeholder="CVV" />
+</div>
+</div>
+<label className="checkbox-one">
+Save my payments details for future purchases
+<input type="checkbox" defaultChecked="checked" />
+<span className="checkmark" />
+</label> */}
                     </div>
                     <div
                         className={`tab-pane fade ${
@@ -317,9 +339,15 @@ const Checkout = () => {
                     </div>
                   </div>
                   {/* Display different button based on payment method */}
-                  <button className="button-price" onClick={handleSummitOrder}>
+                  {starP?<PayPalButton
+                      amount={totalPay}
+                      onSuccess={updatePayment}
+                      options={{
+                        clientId: "AR86XShHEggIM0YzMF6FdymWDWPkpjh7mx-PDVlwis1Ve0HRniLtcaaIjPLMDDw-MZPi89PNeLAmuKrd",
+                      }}
+                  />: <button className="button-price" onClick={handleSummitOrder}>
                     {paymentMethod}
-                  </button>
+                  </button>}
                 </form>
               </div>
             </div>
@@ -328,5 +356,4 @@ const Checkout = () => {
       </Layout>
   );
 };
-
 export default Checkout;
