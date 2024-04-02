@@ -30,6 +30,7 @@ const RestaurantCard = () => {
   const { id } = router.query;
 
   const [reqRestaurent] = useState({restaurantId: id});
+  const [reqItems] = useState({status: 1});
   const [req] = useState({id: id});
   const [restaurantData, setRestaurantData] = useState({
     name: "",
@@ -56,7 +57,7 @@ const RestaurantCard = () => {
 
   }, []);
   useEffect(() => {
-    productService.findProducts(reqRestaurent)
+    productService.findProducts(reqRestaurent, reqItems)
         .then((res) => {
           if (Array.isArray(res.data) && res.data.length > 0) {
 

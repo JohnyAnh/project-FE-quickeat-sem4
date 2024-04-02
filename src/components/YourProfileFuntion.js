@@ -97,9 +97,9 @@ const YourProfileFuntion = ({sidebar}) => {
             );
         }
     };
-    console.log("Yourprofile  Email:", Email);
-    console.log("Yourprofile  userData:", userData);
-    console.log("Yourprofile  ID:", id);
+    // console.log("Yourprofile  Email:", Email);
+    // console.log("Yourprofile  userData:", userData);
+    // console.log("Yourprofile  ID:", id);
     return (
         <div>
             <Head>
@@ -111,7 +111,7 @@ const YourProfileFuntion = ({sidebar}) => {
                 />
             </Head>
             <Formik initialValues={userData} onSubmit={handleUpdate}>
-                    <form>
+                <form onSubmit={handleSubmit}>
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
                             <div className="col-md-5 border-right">
@@ -132,11 +132,11 @@ const YourProfileFuntion = ({sidebar}) => {
                                             className="rounded-circle mt-5"
                                         />
                                     )}
-                                        <div >
-                                            <span className="font-weight-bold">{userData.name}</span>
-                                            <br/>
-                                            <span className="text-black-50">{userData.email}</span>
-                                        </div>
+                                    <div>
+                                        <span className="font-weight-bold">{userData.name}</span>
+                                        <br/>
+                                        <span className="text-black-50">{userData.email}</span>
+                                    </div>
 
                                     <br/>
                                     <div className="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -163,7 +163,7 @@ const YourProfileFuntion = ({sidebar}) => {
                             <div className="col-md-7 border-right">
                                 <div className="p-3 py-5">
                                     <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 className="text-right">Profile Settings</h4>
+                                        <h4 className="text-right">Profile Settings</h4>
                                     </div>
                                     <div className="row mt-2">
                                         <div className="col-md-6">

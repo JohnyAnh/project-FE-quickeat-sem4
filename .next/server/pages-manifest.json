@@ -2,9 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/myorder": "pages/myorder.js",
-  "/thank-you": "pages/thank-you.js",
-  "/checkout": "pages/checkout.js",
-  "/authenticate": "pages/authenticate.js",
-  "/": "pages/index.js"
+  "/restaurants": "pages/restaurants.js",
+  "/restaurant-card": "pages/restaurant-card.js",
+  "/myorder": "pages/myorder.js"
 }

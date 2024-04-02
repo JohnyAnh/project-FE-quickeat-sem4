@@ -6,6 +6,7 @@ import RestaurantService from "@/src/services/restaurantService";
 import {useRouter} from "next/router";
 const Restaurants = (props) => {
   const [restaurant, setRestaurant] = useState([]);
+  const [reqListRestaurant] = useState({status:1})
   const [topRestaurant, setTopRestaurant] = useState();
   const [reqtopRestaurant] = useState({pageSize:1})
   const router = useRouter();
@@ -19,7 +20,7 @@ const Restaurants = (props) => {
 
 
   useEffect(() => {
-    RestaurantService.getRestaurants()
+    RestaurantService.findRestaurants(reqListRestaurant)
         .then((res) => {
           console.log(res.data);
           if (res.data.length > 0) {
@@ -42,7 +43,7 @@ const Restaurants = (props) => {
         .then((res) => {
           console.log(res.data);
           if (res.data.length > 0) {
-            setTopRestaurant(res.data);
+            setTopRestaurant(res.data);m
           } else {
             console.log("No rep topRestaurant found.");
           }
