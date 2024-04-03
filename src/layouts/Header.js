@@ -14,36 +14,73 @@ import jwt from "jsonwebtoken";
 
 
 const Header = ({ extraClass }) => {
+  // const [userData, setUserdata] = useState({
+  //   userId:"",
+  //   email: "",
+  //   name: "",
+  //   tel: "",
+  //   address: "",
+  //   img: null
+  // });
   const [userData, setUserdata] = useState({
     userId:"",
     email: "",
     name: "",
     tel: "",
     address: "",
-    img: null
+    images : ""
   });
   // const Email = localStorage.getItem('email');
   // const [reqEmail] = useState({email:Email});
 
 
-  const token = localStorage.getItem('jwt');
-  const decodedToken = jwt.decode(token);
-  const userId = decodedToken ? decodedToken.id : null;
+  // const token = localStorage.getItem('jwt');
+  // const decodedToken = jwt.decode(token);
+  // const userId = decodedToken ? decodedToken.id : null;
+
+  // useEffect(() => {
+  //   // if (email) {
+  //   userService.findUsers(userId)
+  //       .then((res) => {
+  //         console.log(res.data);
+  //         if (res.data.length > 0) {
+  //           const firstUser = res.data[0];
+  //           setUserdata({
+  //             // userId: firstUser.id || "",
+  //             email: firstUser.email ||  "",
+  //             name: firstUser.name ||  "",
+  //             tel: firstUser.tel ||  "",
+  //             address: firstUser.address ||  "",
+  //             img: firstUser.images ||  ""
+  //           });
+  //         } else {
+  //           console.log("No user found.");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   // }
+  // }, []);
+
+  const Email = localStorage.getItem('email');
+  const [reqEmail] = useState({email:Email})
+
 
   useEffect(() => {
     // if (email) {
-    userService.findUsers(userId)
+    userService.findUsers(reqEmail)
         .then((res) => {
           console.log(res.data);
           if (res.data.length > 0) {
             const firstUser = res.data[0];
             setUserdata({
-              // userId: firstUser.id || "",
-              email: firstUser.email ||  "",
-              name: firstUser.name ||  "",
-              tel: firstUser.tel ||  "",
-              address: firstUser.address ||  "",
-              img: firstUser.images ||  ""
+              userId: firstUser.id || "",
+              email: firstUser.email || "",
+              name: firstUser.name || "",
+              tel: firstUser.tel || "",
+              address: firstUser.address || "",
+              images: firstUser.images || ""
             });
           } else {
             console.log("No user found.");

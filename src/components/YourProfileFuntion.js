@@ -11,39 +11,45 @@ import Swal from "sweetalert2";
 const YourProfileFuntion = ({sidebar}) => {
     const router = useRouter();
     const [img, setFile] = useState(null);
+
     const [userData, setUserdata] = useState({
         userId:"",
         email: "",
         name: "",
         tel: "",
         address: "",
-        img: null
+        images : ""
     });
+    // const token = localStorage.getItem('jwt');
+    // const decodedToken = jwt.decode(token);
+    // const userId = decodedToken ? decodedToken.id : null;
+
     const Email = localStorage.getItem('email');
     const [reqEmail] = useState({email:Email})
 
 
     useEffect(() => {
         // if (email) {
-            userService.findUsers(reqEmail)
-                .then((res) => {
-                    console.log(res.data);
-                    if (res.data.length > 0) {
-                        const firstUser = res.data[0];
-                        setUserdata({
-                            userId: firstUser.id || "",
-                            email: firstUser.email || "",
-                            name: firstUser.name || "",
-                            tel: firstUser.tel || "",
-                            address: firstUser.address || ""
-                        });
-                    } else {
-                        console.log("No user found.");
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+        userService.findUsers(reqEmail)
+            .then((res) => {
+                // console.log("User data",res.data);
+                if (res.data.length > 0) {
+                    const firstUser = res.data[0];
+                    setUserdata({
+                        userId: firstUser.id || "",
+                        email: firstUser.email || "",
+                        name: firstUser.name || "",
+                        tel: firstUser.tel || "",
+                        address: firstUser.address || "",
+                        images: firstUser.images || ""
+                    });
+                } else {
+                    console.log("No user found.");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         // }
     }, []);
 
@@ -99,6 +105,34 @@ const YourProfileFuntion = ({sidebar}) => {
     };
     // console.log("Yourprofile  Email:", Email);
     // console.log("Yourprofile  userData:", userData);
+    const updateAvatar = async () => {
+
+        Swal.fire({
+            title: 'Are you sure update Image ?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Upload it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const t = await userService.updateAvatar(file, id);
+                if (t != null) {
+                    Swal.fire(
+                        'Success!',
+                        'Your file has been update.',
+                        'success'
+                    ).then(() => {
+                        // Sau khi hiển thị thông báo thành công, làm mới trang
+                        window.location.reload();
+                    });
+                    // return navigate("/brands/detail/ + e.id");
+                }
+            }
+        })
+    }
+
     // console.log("Yourprofile  ID:", id);
     return (
         <div>
@@ -111,7 +145,7 @@ const YourProfileFuntion = ({sidebar}) => {
                 />
             </Head>
             <Formik initialValues={userData} onSubmit={handleUpdate}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleUpdate}>
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
                             <div className="col-md-5 border-right">
@@ -119,10 +153,12 @@ const YourProfileFuntion = ({sidebar}) => {
                                     {userData.images && userData.images.length > 0 ? (
                                         userData.images.map((image, index) => (
                                             <img
+
                                                 key={index}
                                                 src={image.url}
                                                 id="profile-image"
                                                 className="rounded-circle mt-5"
+                                                style={{ width: '300px', height: '300px' }}
                                             />
                                         ))
                                     ) : (
@@ -140,22 +176,26 @@ const YourProfileFuntion = ({sidebar}) => {
 
                                     <br/>
                                     <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                                        <div className="custom-file">
-                                            <input
-                                                type="file"
-                                                onChange={handleFileChange}
-                                                name="img"
-                                                className="form-control"
-                                                id="avatar" // Đổi id thành "image-upload"
-                                                multiple
-                                            />
-                                            <label
-                                                className="custom-file-label"
-                                                htmlFor="avatar" // Sử dụng cùng một id cho htmlFor
-                                            >
-                                                Choose file
-                                            </label>
+                                        <div className="input-group">
+                                            <div className="custom-file">
+                                                <input
+                                                    type="file"
+                                                    onChange={handleFileChange}
+                                                    name="img"
+                                                    className="form-control"
+                                                    id="inputGroupFile04"
+                                                    aria-describedby="inputGroupFileAddon04"
+                                                    aria-label="Upload"
+                                                    multiple
+
+                                                    />
+                                                <button className="btn btn-outline-secondary" type="button"
+                                                        onClick={updateAvatar} id="inputGroupFileAddon04">Upload
+                                                </button>
+
+                                            </div>
                                         </div>
+
 
                                     </div>
                                 </div>
@@ -163,7 +203,7 @@ const YourProfileFuntion = ({sidebar}) => {
                             <div className="col-md-7 border-right">
                                 <div className="p-3 py-5">
                                     <div className="d-flex justify-content-between align-items-center mb-3">
-                                        <h4 className="text-right">Profile Settings</h4>
+                                    <h4 className="text-right">Profile Settings</h4>
                                     </div>
                                     <div className="row mt-2">
                                         <div className="col-md-6">

@@ -28,6 +28,14 @@ const userService = {
             throw error;
         }
     },
+    getUserProfile: async () => {
+        try {
+            const response = await axios.get(API_URL+ "/profile", {headers:getAuthorizationHeader()});
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 
     findUsers: async (user) => {
         try {
@@ -50,6 +58,9 @@ const userService = {
 
     deleteUser(userId) {
         return axios.delete(API_URL + "/" + userId, {headers:getAuthorizationHeader()});
+    },
+    updateAvatar(file, userId) {
+        return axios.put(API_URL + "/avatar/" + userId, file, { headers: getAuthorizationHeader() });
     }
 }
 

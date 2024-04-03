@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/restaurants": "pages/restaurants.js",
-  "/restaurant-card": "pages/restaurant-card.js",
+  "/": "pages/index.js",
+  "/yourprofile": "pages/yourprofile.js",
   "/myorder": "pages/myorder.js"
 }
