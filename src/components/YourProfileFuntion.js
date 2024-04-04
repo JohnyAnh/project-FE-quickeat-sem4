@@ -8,17 +8,20 @@ import {useRouter} from "next/router";
 import userService from "@/src/services/userService";
 import { Formik, Form, Field } from 'formik';
 import Swal from "sweetalert2";
-const YourProfileFuntion = ({sidebar}) => {
-    const router = useRouter();
-    const [img, setFile] = useState(null);
 
+const YourProfileFuntion = ({sidebar}) => {
+
+    const router = useRouter();
+    const [file, setFile] = useState({
+        img : ''
+    });
     const [userData, setUserdata] = useState({
-        userId:"",
-        email: "",
-        name: "",
-        tel: "",
-        address: "",
-        images : ""
+        id: '',
+        name: '',
+        address: '',
+        birthday: '',
+        tel: '',
+        email: '',
     });
     // const token = localStorage.getItem('jwt');
     // const decodedToken = jwt.decode(token);
@@ -35,14 +38,7 @@ const YourProfileFuntion = ({sidebar}) => {
                 // console.log("User data",res.data);
                 if (res.data.length > 0) {
                     const firstUser = res.data[0];
-                    setUserdata({
-                        userId: firstUser.id || "",
-                        email: firstUser.email || "",
-                        name: firstUser.name || "",
-                        tel: firstUser.tel || "",
-                        address: firstUser.address || "",
-                        images: firstUser.images || ""
-                    });
+                    setUserdata(res.data[0]);
                 } else {
                     console.log("No user found.");
                 }
@@ -50,7 +46,6 @@ const YourProfileFuntion = ({sidebar}) => {
             .catch((err) => {
                 console.log(err);
             });
-        // }
     }, []);
 
 
@@ -63,12 +58,11 @@ const YourProfileFuntion = ({sidebar}) => {
     };
 
     const handleFileChange = (event) => {
-        setUserdata((prevDetails) => ({
-            ...prevDetails,
-            img: event.target.files
-        }));
+        file.img = event.target.files;
+        setFile(file);
     };
-    const id = userData.userId;
+
+    const id = userData.id;
 
     const handleUpdate = async () => {
         try {
@@ -117,7 +111,7 @@ const YourProfileFuntion = ({sidebar}) => {
             confirmButtonText: 'Yes, Upload it!'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const t = await userService.updateAvatar(file, id);
+                const t = userService.updateAvatar(file, id);
                 if (t != null) {
                     Swal.fire(
                         'Success!',
@@ -145,7 +139,7 @@ const YourProfileFuntion = ({sidebar}) => {
                 />
             </Head>
             <Formik initialValues={userData} onSubmit={handleUpdate}>
-                <form onSubmit={handleUpdate}>
+                <Form>
                     <div className="container rounded bg-white mt-5 mb-5">
                         <div className="row">
                             <div className="col-md-5 border-right">
@@ -195,8 +189,6 @@ const YourProfileFuntion = ({sidebar}) => {
 
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -266,7 +258,7 @@ const YourProfileFuntion = ({sidebar}) => {
                             </div>
                         </div>
                     </div>
-                </form>
+                </Form>
             </Formik>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

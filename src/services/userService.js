@@ -53,14 +53,16 @@ const userService = {
     },
 
     updateUser(user, userId) {
-        return axios.put(API_URL + "/" + userId, user, {headers:getAuthorizationHeader()});
+        const headers = getAuthorizationHeader();
+        delete headers['Content-Type'];
+        return axios.put(API_URL + "/" + userId, user, {headers});
     },
 
     deleteUser(userId) {
         return axios.delete(API_URL + "/" + userId, {headers:getAuthorizationHeader()});
     },
     updateAvatar(file, userId) {
-        return axios.put(API_URL + "/avatar/" + userId, file, { headers: getAuthorizationHeader() });
+        return axios.put(API_URL + "/avatar" , file, { headers: getAuthorizationHeader() });
     }
 }
 
