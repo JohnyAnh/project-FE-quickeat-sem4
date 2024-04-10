@@ -22,6 +22,7 @@ const YourProfileFuntion = ({sidebar}) => {
         birthday: '',
         tel: '',
         email: '',
+        description: null
     });
     // const token = localStorage.getItem('jwt');
     // const decodedToken = jwt.decode(token);
@@ -85,7 +86,7 @@ const YourProfileFuntion = ({sidebar}) => {
                         'Your file has been updated.',
                         'success'
                     );
-                    router.push("/yourprofile");
+                    await router.push("/yourprofile");
                 }
             }
         } catch (error) {
